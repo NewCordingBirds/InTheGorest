@@ -12,6 +12,7 @@ const int OP_SEND = 0;
 const int OP_RECV = 1;
 const int OP_MOVE = 2;
 
+extern HANDLE hIOCP;
 
 const int EVENT_MOVE = 0;
 const int EVENT_CHASE = 1;
@@ -30,9 +31,8 @@ public:
 	CServer();
 	~CServer();
 
-	HANDLE hIOCP;
 
-	void error_display(char *msg, int err_no)
+	static void error_display(char *msg, int err_no)
 	{
 		WCHAR *lpMsgBuf;
 		FormatMessage(
@@ -45,19 +45,18 @@ public:
 		wprintf(L"¿¡·¯%s\n", lpMsgBuf);
 		LocalFree(lpMsgBuf);
 	}
-	void NetworkInit()
+	static void NetworkInit()
 	{
 		WSADATA wsadata;
 		WSAStartup(MAKEWORD(2, 2), &wsadata);
 	}
 
-	void PlayerInit(int id);
-	void SendPacket(int id, void *packet);
-	void ProcessPacket(char *packet, int id);
-	void Accept_thread();
-	void worker_thread();
+	static void PlayerInit(int id);
+	static void SendPacket(int id, void *packet);
+	static void ProcessPacket(char *packet, int id);
+	static void Accept_thread();
+	static void worker_thread();
 	void Process_Event(event_type nowevent);
-	int GetNewClient_ID();
+	static int GetNewClient_ID();
 
-	void servermain();
 };

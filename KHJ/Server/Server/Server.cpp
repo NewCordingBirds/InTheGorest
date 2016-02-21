@@ -4,6 +4,8 @@
 CRITICAL_SECTION cs;					//크리티컬 섹션
 //using namespace std;
 
+HANDLE hIOCP;
+
 CPlayer m_player;
 
 PLAYER client[8];
@@ -23,7 +25,7 @@ void CServer::PlayerInit(int id){
 
 void CServer::SendPacket(int id, void *packet)
 {
-	int packet_size = reinterpret_cast<unsigned char *>(packet)[0];
+	int packet_size = reinterpret_cast<unsigned char *>(packet)[1];
 
 	OVERAPPED_EX *send_over = new OVERAPPED_EX;
 	ZeroMemory(send_over, sizeof(OVERAPPED_EX));
@@ -50,11 +52,11 @@ int CServer::GetNewClient_ID()
 	return -1;
 }
 
+SC_Player pos;
+
 void CServer::ProcessPacket(char* packet, int id){
 
-	SC_Player pos;
-	
-	float x, y, z;
+	float x = client[id].x, y = client[id].y, z;
 	float rotateX, rotateY;
 	int state;
 
@@ -72,6 +74,8 @@ void CServer::ProcessPacket(char* packet, int id){
 	pos.rotate_y = rotateY;
 	pos.state = state;
 	
+	printf("%d, %d\n", pos.x, pos.y);
+
 	SendPacket(id, &pos);
 
 	// 아이템 처리
@@ -112,12 +116,13 @@ void CServer::Accept_thread(){
 			exit(-1);
 		}
 
-		printf("접속 %s", inet_ntoa(client_addr.sin_addr));
 
 		// 플레이어 접속 / 위치 / 상태
 		int id = GetNewClient_ID();
 		client[id].sock = client_socket;
-		
+
+		printf("접속 %s \n ID : %d", inet_ntoa(client_addr.sin_addr), id);
+
 		CreateIoCompletionPort(reinterpret_cast<HANDLE>(client_socket),
 			hIOCP, id, 0);
 		unsigned long recv_flag = 0;
@@ -140,7 +145,6 @@ void CServer::Accept_thread(){
 		SC_Player *m_playerpacket = { 0 };
 		m_player.PlayerAccept(id, m_playerpacket);
 		SendPacket(id, &m_playerpacket);
-
 	}
 }
 void CServer::Process_Event(event_type nowevent){
@@ -173,7 +177,6 @@ void CServer::worker_thread(){
 			closesocket(client[key].sock);
 			client[key].in_use = false;
 		}
-
 		//recv
 		if (OP_RECV == over_ex->operation_type){
 			int rest_size = io_size;
@@ -195,7 +198,7 @@ void CServer::worker_thread(){
 					memcpy(over_ex->PacketBuf + over_ex->prev_received,
 						buf, remain);
 					// 프로세스패킷 함수 ( 클라에서 받아온 정보 패킷 처리)
-
+					ProcessPacket(over_ex->PacketBuf, key);
 					rest_size -= remain;
 					packet_size = 0;
 					over_ex->prev_received = 0;
@@ -203,33 +206,35 @@ void CServer::worker_thread(){
 			}
 			over_ex->curr_packet_size = packet_size;
 			unsigned long recv_flag = 0;
-		//	WSARecv(client[key].sock, &over_ex->wsabuf, 1, NULL,
-			//	&recv_flag, &over_ex->overapped, NULL);
+			WSARecv(client[key].sock, &over_ex->wsabuf, 1, NULL,
+				&recv_flag, &over_ex->overapped, NULL);
+			printf("%d \n", sizeof(client[key].sock));
 		}
 		//SEND
-		else if (OP_SEND == over_ex->operation_type)
+ 		else if (OP_SEND == over_ex->operation_type)
 			delete over_ex;
 	}
 }
 
 void main(){
-	CServer server;
+	//CServer server;
 	vector <thread *> worker_threads;
 
 	_wsetlocale(LC_ALL, L"korean");
-	server.NetworkInit();
+	CServer::NetworkInit();
 
-	server.hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0);
+	for (int i = 0; i < 8; ++i) 
+		CServer::PlayerInit(i);
+	
+	hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0);
 
-	for (int i = 0; i < NUM_THREADS; ++i){
-		//	worker_threads.push_back(new thread{ server.worker_thread });
+	for (int i = 0; i < NUM_THREADS; ++i)
+		worker_threads.push_back(new thread{ CServer::worker_thread });
+	
+	thread acc = thread{ CServer::Accept_thread };
 
+	while (true){
+		Sleep(1000);
 	}
-
-	server.Accept_thread();	
-	server.worker_thread();
-
-	thread acc = thread{ server.Accept_thread };
-
 
 }

@@ -25,6 +25,17 @@
 #define MAX_BUFFER_SIZE			4000
 #define MAX_PACKET_SIZE			255
 
+// 이동키값
+#define KEY_UP					1
+#define KEY_DOWN				2
+#define KEY_RIGHT				3
+#define KEY_LEFT				4
+//케
+#define STATE_NORMAL			1
+#define STATE_DIZZY				2
+#define STATE_BOOSTER			3
+
+
 //C->S
 #define CS_KEY					1
 #define CS_ROTATE				2
@@ -49,9 +60,9 @@ struct OVERAPPED_EX {
 	unsigned int curr_packet_size;
 };
 struct PLAYER {
-	float x;
-	float y;
-	float z;
+	int x;								//임시로 float -> int
+	int y;
+	int z;
 	float rotateX;
 	float rotateY;
 	SOCKET sock;
@@ -67,6 +78,7 @@ struct PLAYER {
 struct CS_key{						// 키 값
 	BYTE type;						// 1		
 	BYTE size;
+	int direction;					//방향(일단 더미에서만)
 	int movetype;					// 1234
 };
 struct CS_Rotate{					// 플레이어 회전
