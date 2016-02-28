@@ -2,16 +2,13 @@
 #include "Server.h"
 
 CRITICAL_SECTION cs;					//크리티컬 섹션
-//using namespace std;
 
 HANDLE hIOCP;
 
 CPlayer m_player;
-
 PLAYER client[8];
 
 CServer::CServer(){}
-
 CServer::~CServer(){}
 
 void CServer::PlayerInit(int id){
@@ -20,12 +17,11 @@ void CServer::PlayerInit(int id){
 	client[id].my_overapped.operation_type = OP_RECV;
 	client[id].my_overapped.wsabuf.buf = client[id].my_overapped.IOCPbuf;
 	client[id].my_overapped.wsabuf.len = sizeof(client[id].my_overapped.IOCPbuf);
-	//client[id].view_list.clear();
 }
 
 void CServer::SendPacket(int id, void *packet)
 {
-	int packet_size = reinterpret_cast<unsigned char *>(packet)[1];
+	int packet_size = reinterpret_cast<unsigned char *>(packet)[0];
 
 	OVERAPPED_EX *send_over = new OVERAPPED_EX;
 	ZeroMemory(send_over, sizeof(OVERAPPED_EX));
@@ -55,28 +51,26 @@ int CServer::GetNewClient_ID()
 SC_Player pos;
 
 void CServer::ProcessPacket(char* packet, int id){
-
-	float x = client[id].x, y = client[id].y, z;
-	float rotateX, rotateY;
-	int state;
-
-	//플레이어 키값 받을 시 플레이어 위치 및 여러가지 값 바꿔주기
-	if (CS_KEY == packet[0])
-		m_player.PlayerPos(packet[2], pos);
-
-	pos.size = sizeof(pos);
-	pos.type = SC_PLAYER;
-	pos.ID = id;
-	pos.x = x;
-	pos.y = y;
-	pos.z = z;
-	pos.rotate_x = rotateX;
-	pos.rotate_y = rotateY;
-	pos.state = state;
 	
-	printf("%d, %d\n", pos.x, pos.y);
+	pos.x = client[id].x;
+	pos.y = client[id].y;
 
-	SendPacket(id, &pos);
+	CS_key *key = reinterpret_cast<CS_key*> (packet);
+	//플레이어 키값 받을 시 플레이어 위치 및 여러가지 값 바꿔주기
+	if (CS_KEY == key->type){
+		pos.size = sizeof(pos);
+		pos.type = SC_PLAYER;
+		pos.ID = id;
+		pos = m_player.PlayerPos(key->movetype, pos);
+	}
+		
+	client[id].x = pos.x;
+	client[id].y = pos.y;
+
+	printf("%d, %d\n", client[id].x, client[id].y);
+	
+	for (int i = 0; i <= 8; ++i)
+		SendPacket(i, &pos);
 
 	// 아이템 처리
 
@@ -121,15 +115,14 @@ void CServer::Accept_thread(){
 		int id = GetNewClient_ID();
 		client[id].sock = client_socket;
 
-		printf("접속 %s \n ID : %d", inet_ntoa(client_addr.sin_addr), id);
+		printf("접속 %s \n ID : %d \n", inet_ntoa(client_addr.sin_addr), id);
 
 		CreateIoCompletionPort(reinterpret_cast<HANDLE>(client_socket),
 			hIOCP, id, 0);
 		unsigned long recv_flag = 0;
 
-
 		ret = WSARecv(client_socket, &client[id].my_overapped.wsabuf, 1, NULL,
-			&recv_flag, &client[id].my_overapped.overapped, NULL);
+				&recv_flag, &client[id].my_overapped.overapped, NULL);
 
 		if (SOCKET_ERROR == ret){
 			int err_code = WSAGetLastError();
@@ -141,10 +134,14 @@ void CServer::Accept_thread(){
 		
 		// 서버에서 클라로 보내줄 플레이어 패킷
 		// SC_Player
+		SC_Player m_playerpacket = { 0 };
+		m_playerpacket = m_player.PlayerAccept(id, m_playerpacket);
+		client[id].x = m_playerpacket.x ;
+		client[id].y = m_playerpacket.y;
+		client[id].in_use = true;
 
-		SC_Player *m_playerpacket = { 0 };
-		m_player.PlayerAccept(id, m_playerpacket);
-		SendPacket(id, &m_playerpacket);
+		for (int i = 0; i <= 8; ++i)
+			SendPacket(i, &m_playerpacket);		
 	}
 }
 void CServer::Process_Event(event_type nowevent){
@@ -166,16 +163,17 @@ void CServer::worker_thread(){
 
 	while (true)
 	{
+		bool test;
 		unsigned long io_size;
 		unsigned long key;
 		OVERAPPED_EX *over_ex;
 		GetQueuedCompletionStatus(hIOCP, &io_size, &key, 
 			reinterpret_cast<LPOVERLAPPED*> (&over_ex), INFINITE);
-		
+	
 		// 에러로 인한 접속 종료
 		if (0 == io_size){
-			closesocket(client[key].sock);
-			client[key].in_use = false;
+			//closesocket(client[key].sock);
+			//client[key].in_use = false;
 		}
 		//recv
 		if (OP_RECV == over_ex->operation_type){
@@ -208,7 +206,6 @@ void CServer::worker_thread(){
 			unsigned long recv_flag = 0;
 			WSARecv(client[key].sock, &over_ex->wsabuf, 1, NULL,
 				&recv_flag, &over_ex->overapped, NULL);
-			printf("%d \n", sizeof(client[key].sock));
 		}
 		//SEND
  		else if (OP_SEND == over_ex->operation_type)
@@ -230,7 +227,7 @@ void main(){
 
 	for (int i = 0; i < NUM_THREADS; ++i)
 		worker_threads.push_back(new thread{ CServer::worker_thread });
-	
+
 	thread acc = thread{ CServer::Accept_thread };
 
 	while (true){

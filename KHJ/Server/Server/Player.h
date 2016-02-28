@@ -26,7 +26,7 @@ public:
 
 	int m_room;									// 방 번호
 
-	static SC_Player PlayerAccept(int id, SC_Player *packet);
+	static SC_Player PlayerAccept(int id, SC_Player packet);
 //	int InitPlayer ();					// 게임 시작 시 플레이어
 	static SC_Player PlayerPos(char packet, SC_Player Pl);				// 플레이어 위치
 	int ChangePlayerState (int state);						// 상태

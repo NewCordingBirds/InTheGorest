@@ -25,6 +25,9 @@
 #define MAX_BUFFER_SIZE			4000
 #define MAX_PACKET_SIZE			255
 
+#define START_X					10
+#define START_Y					10
+
 // 이동키값
 #define KEY_UP					1
 #define KEY_DOWN				2
@@ -76,34 +79,37 @@ struct PLAYER {
 #pragma pack (push, 1)
 
 struct CS_key{						// 키 값
-	BYTE type;						// 1		
 	BYTE size;
+	BYTE type;						// 1		
 	int direction;					//방향(일단 더미에서만)
 	int movetype;					// 1234
 };
 struct CS_Rotate{					// 플레이어 회전
-	BYTE type;						//2
 	BYTE size;
+	BYTE type;						//2
 	float rotateX;
 	float rotateY;
 };
 
 struct CS_ItemGet{					// 아이템 획득
-	BYTE type;						//3
 	BYTE size;
+	BYTE type;						//3
 };
 
 struct CS_ShootKey{					// 총 쏘는 키 받기
-	BYTE type;						// 4
 	BYTE size;
+	BYTE type;						// 4;
 };
 
+//////////////////////////////////////////////
+
+
 struct SC_Player{					// 플레이어 위치
-	BYTE type;						//1
-	BYTE size;						
-	float x;
-	float y;
-	float z;
+	BYTE size;	
+	BYTE type;						//1					
+	int x;
+	int y;
+	int z;
 	float rotate_x;					//좌우
 	float rotate_y;					//상하
 	int ID;		

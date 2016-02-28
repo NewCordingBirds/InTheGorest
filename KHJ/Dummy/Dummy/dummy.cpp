@@ -1,11 +1,12 @@
 //#include <windows.h>
 #pragma comment(lib, "ws2_32")
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console" )
 
 #include <winsock2.h>
 #include <stdlib.h> 
 #include <stdio.h>
 #include <time.h>
-#include "..\..\Server\Server\Protocol.h"
+#include "D:\InTheGorest\KHJ\Server\Server\Protocol.h"
 
 #define SERVERIP   "127.0.0.1"
 #define SERVERPORT 9000
@@ -14,11 +15,30 @@
 #define MAX 380
 #define MIN 20
 
-PLAYER pl;
-PLAYER bufP;
-SOCKET sock;
+#define WM_SOCKET			WM_USER+1
 
-int playertype = 0;					// 1 -> 본인 2-> 타인
+PLAYER enemy[7];				// 다른 플레이어 7명
+PLAYER pl;							// 본인
+PLAYER bufP;
+
+HWND Hwnd = NULL;
+
+int countplayer = 0;						// 접속한 사람 수
+bool Mych = 0;
+bool Enemych[7] = { 0 };
+
+SOCKET Mysock;
+WSABUF sendWSA;
+char send_buf[BUFSIZE];
+WSABUF recvWSA;
+char recv_buf[BUFSIZE];
+char packet_buf[BUFSIZE];
+DWORD packet_size = 0;
+int savePacketsize = 0;
+int myID;
+int enemyID[7];
+
+
 
 DWORD WINAPI ClientMain(LPVOID arg);
 
@@ -75,8 +95,67 @@ HINSTANCE g_hInst;
 LPSTR lpszClass = "Mouse";
 
 void ProcessPacket(char *ptr){
+	static bool first_time;
+
 	switch (ptr[0]){
-	
+	case SC_PLAYER:
+		SC_Player *my_packet = reinterpret_cast<SC_Player*>(ptr);
+		int id = my_packet->ID;
+		if (first_time) {
+
+			first_time = false;
+			myID = id;
+		}
+		if (myID == id){					//본인
+			Mych = true;
+			pl.x = my_packet->x;
+			pl.y = my_packet->y;
+		}
+		else{								//타 플레이어
+			enemyID[countplayer] = id;
+			countplayer++;
+			Enemych[id] = true;
+			enemy[id].x = my_packet->x;
+			enemy[id].y = my_packet->y;
+
+		}
+		break;
+	//case SC_ITEM:
+	//	break;
+	//case SC_TIMER:
+	//	break;
+	//case SC_SHOOT:
+	//	break;
+	}
+}
+
+void ReadPacket(SOCKET sock){
+	DWORD iobyte, ioflag = 0;
+
+	int ret = WSARecv(sock, &recvWSA, 1, &iobyte, &ioflag, NULL, NULL);
+	if (ret){
+		int err_code = WSAGetLastError();
+		printf("Recv Error [%d] \n", err_code);
+	}
+	BYTE *ptr = reinterpret_cast<BYTE*>(recv_buf);
+
+	while (0 != iobyte){
+		if (0 == packet_size)
+			packet_size = ptr[0];
+		if (iobyte + savePacketsize >= packet_size){
+			memcpy(packet_buf + savePacketsize, ptr, packet_size - savePacketsize);
+			ProcessPacket(packet_buf);
+			ptr += packet_size - savePacketsize;
+			iobyte -= packet_size - savePacketsize;
+			packet_size = 0;
+			savePacketsize = 0;
+		}
+		else{
+			memcpy(packet_buf + savePacketsize, ptr, iobyte);
+
+			savePacketsize += iobyte;
+			iobyte = 0;
+		}
 	}
 }
 
@@ -124,15 +203,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
 	HPEN Mypen, Oldpen;
 
-	static int i, j;				//체스판 가로, 세로
 	static int CH_x, CH_y;			//케릭터 좌표
 	static int direction;
 	static int num;					//배게 번호
-	
+
 	static bool pillow[5];			//배게 5개 랜덤 등장
 	static bool have_pillow;
 	static bool keyup;
-	
+
+	static int hori;				// x축		0-> 초기 1-> + 2-> -
+	static int verti;				// y축
+
 	static int pillow_x[5], pillow_y[5];	//배게의 위치
 
 	switch (iMessage) {
@@ -144,8 +225,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			return 1;
 
 		// socket()
-		sock = socket(AF_INET, SOCK_STREAM, 0);
-		if (sock == INVALID_SOCKET) err_quit("socket()");
+		Mysock =WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, 0);
+		if (Mysock == INVALID_SOCKET) err_quit("socket()");
 
 		// connect()
 		SOCKADDR_IN serveraddr;
@@ -153,150 +234,234 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		serveraddr.sin_family = AF_INET;
 		serveraddr.sin_addr.s_addr = inet_addr(SERVERIP);
 		serveraddr.sin_port = htons(SERVERPORT);
-		retval = connect(sock, (SOCKADDR *)&serveraddr, sizeof(serveraddr));
+		retval = WSAConnect(Mysock, (sockaddr *)&serveraddr, sizeof(serveraddr),
+			NULL, NULL, NULL, NULL);
 		if (retval == SOCKET_ERROR) err_quit("connect()");
+
+		WSAAsyncSelect(Mysock, Hwnd, WM_SOCKET, FD_CLOSE | FD_READ);
+
+		sendWSA.buf = send_buf;
+		sendWSA.len = BUFSIZE;
+		recvWSA.buf = recv_buf;
+		recvWSA.len = BUFSIZE;
 
 		// 데이터 통신에 사용할 변수
 		char buf[BUFSIZE + 1];
 		int len;
 		return 0;
 		keyup = false;
-	
-	case WM_KEYDOWN:
-		switch (wParam){	
-		
-		case VK_RIGHT:
-			direction = 1;
-			if (CH_x < MAX){
-				CH_x += 2;
-			}
-			break;
+		hori = 0;
+		verti = 0;
 
-		case VK_LEFT:
-			direction = 2;
-			if (CH_x > MIN){
-				CH_x -= 2;
-			}
+		hTimer = (HANDLE)SetTimer(hWnd, 1, 30, NULL);
 
-			break;
+		return 0;
 
-		case VK_UP:
-			direction = 3;
-			if (CH_y > MIN){
-			CH_y -= 2;
-		}
-			break;
+	case WM_KEYDOWN:{
 
-		case VK_DOWN:
-			direction = 4;
-			if (CH_y < MAX){
-				
-				CH_y += 2;
-			}
-			break;
-
-		}
 		keyup = true;
-		InvalidateRect(hWnd, NULL, TRUE);
+
+		CS_key *key = reinterpret_cast<CS_key*> (send_buf);
+		if (wParam == VK_RIGHT){
+			hori = 1;
+			verti = 0;
+		}
+		if (wParam == VK_LEFT){
+			hori = 2;
+			verti = 0;
+		}
+		if (wParam == VK_UP){
+			verti = 1;
+			hori = 0;
+		}
+		if (wParam == VK_DOWN){
+			verti = 2;
+			hori = 0;
+		}
+		key->type = CS_KEY;
+		key->size = sizeof(CS_key);
+		sendWSA.len = sizeof(CS_key);
+		
+		int ret;
+		DWORD iobyte;
+		if (0 != hori){
+			if (1 == hori) {
+				key->movetype = KEY_RIGHT;
+				key->direction = 1;
+			}
+			else{
+				key->movetype = KEY_LEFT;
+				key->direction = 2;
+			}
+		}
+		if (0 != verti){
+			if (1 == verti) {
+				key->movetype = KEY_UP;
+				key->direction = 3;
+			}
+			else {
+				key->movetype = KEY_DOWN;
+				key->direction = 4;
+			}
+		}
+		ret = WSASend(Mysock, &sendWSA, 1, &iobyte, 0, NULL, NULL);
+		if (ret){
+			int error_code = WSAGetLastError();
+			printf("Error while sending packet[%d]", error_code);
+		}
+		//InvalidateRect(hWnd, NULL, TRUE);
+	}
 		return 0;
 
 	case WM_KEYUP:
 		keyup = false;
 		return 0;
 
-
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		//게임 공간
-		Rectangle(hdc, 20, 20, 400, 400);		
-
+		Rectangle(hdc, 20, 20, 400, 400);/*
+		Mych = true;
+		Enemych[0] = true;*/
 		//임시 케릭터
-		Ellipse(hdc, CH_x, CH_y, CH_x+20, CH_y+20);		//캐릭터 본체(원형)
-		if (1 == playertype)
+		if (Mych){
 			Mypen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+			Oldpen = (HPEN)SelectObject(hdc, Mypen);
+			Ellipse(hdc, pl.x, pl.y, pl.x + 20, pl.y + 20);		//캐릭터 본체(원형)
 			
-		else
-			Mypen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
-			
-		Oldpen = (HPEN)SelectObject(hdc, Mypen);
-
-
-		if (direction == 1){								//방향 삼각형(오른쪽)
-			MoveToEx(hdc, CH_x + 20, CH_y, NULL);
-			LineTo(hdc, CH_x + 20, CH_y + 20);
-			MoveToEx(hdc, CH_x + 20, CH_y + 20, NULL);
-			LineTo(hdc, CH_x + 30, CH_y + 10);
-			MoveToEx(hdc, CH_x + 30, CH_y + 10, NULL);
-			LineTo(hdc, CH_x + 20, CH_y);
-		}if (direction == 2){								//방향 삼각형(왼쪽)
-			MoveToEx(hdc, CH_x, CH_y, NULL);
-			LineTo(hdc, CH_x, CH_y + 20);
-			MoveToEx(hdc, CH_x, CH_y + 20, NULL);
-			LineTo(hdc, CH_x - 10, CH_y + 10);
-			MoveToEx(hdc, CH_x -10, CH_y + 10, NULL);
-			LineTo(hdc, CH_x, CH_y);
-		}if (direction == 3){								//방향 삼각형(위)
-			MoveToEx(hdc, CH_x, CH_y, NULL);
-			LineTo(hdc, CH_x+20, CH_y);
-			MoveToEx(hdc, CH_x + 20, CH_y, NULL);
-			LineTo(hdc, CH_x + 10, CH_y - 10);
-			MoveToEx(hdc, CH_x + 10, CH_y - 10, NULL);
-			LineTo(hdc, CH_x, CH_y);
-		}if (direction == 4){								//방향 삼각형(아래)
-			MoveToEx(hdc, CH_x, CH_y+20, NULL);
-			LineTo(hdc, CH_x + 20, CH_y + 20);
-			MoveToEx(hdc, CH_x + 20, CH_y + 20, NULL);
-			LineTo(hdc, CH_x + 10, CH_y + 30);
-			MoveToEx(hdc, CH_x + 10, CH_y + 30, NULL);
-			LineTo(hdc, CH_x, CH_y+20);
+			if (direction == 1){								//방향 삼각형(오른쪽)
+				MoveToEx(hdc, pl.x + 20, pl.y, NULL);
+				LineTo(hdc, pl.x + 20, pl.y + 20);
+				MoveToEx(hdc, pl.x + 20, pl.y + 20, NULL);
+				LineTo(hdc, pl.x + 30, pl.y + 10);
+				MoveToEx(hdc, pl.x + 30, pl.y + 10, NULL);
+				LineTo(hdc, pl.x + 20, pl.y);
+			}if (direction == 2){								//방향 삼각형(왼쪽)
+				MoveToEx(hdc, pl.x, pl.y, NULL);
+				LineTo(hdc, pl.x, pl.y + 20);
+				MoveToEx(hdc, pl.x, pl.y + 20, NULL);
+				LineTo(hdc, pl.x - 10, pl.y + 10);
+				MoveToEx(hdc, pl.x - 10, pl.y + 10, NULL);
+				LineTo(hdc, pl.x, pl.y);
+			}if (direction == 3){								//방향 삼각형(위)
+				MoveToEx(hdc, pl.x, pl.y, NULL);
+				LineTo(hdc, pl.x + 20, pl.y);
+				MoveToEx(hdc, pl.x + 20, pl.y, NULL);
+				LineTo(hdc, pl.x + 10, pl.y - 10);
+				MoveToEx(hdc, pl.x + 10, pl.y - 10, NULL);
+				LineTo(hdc, pl.x, pl.y);
+			}if (direction == 4){								//방향 삼각형(아래)
+				MoveToEx(hdc, pl.x, pl.y + 20, NULL);
+				LineTo(hdc, pl.x + 20, pl.y + 20);
+				MoveToEx(hdc, pl.x + 20, pl.y + 20, NULL);
+				LineTo(hdc, pl.x + 10, pl.y + 30);
+				MoveToEx(hdc, pl.x + 10, pl.y + 30, NULL);
+				LineTo(hdc, pl.x, pl.y + 20);
+			}
+			SelectObject(hdc, Oldpen);
+			DeleteObject(Mypen);
 		}
+		
+		if(Enemych[0]){												// 타 플레이어
+			for (int i = 1; i < countplayer; i++){
+				Mypen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
+				Oldpen = (HPEN)SelectObject(hdc, Mypen);
+				Ellipse(hdc, enemy[i].x, enemy[i].y, enemy[i].x + 50, enemy[i].y + 50);		//캐릭터 본체(원형)
+				
 
-		SelectObject(hdc, Oldpen);
-		DeleteObject(Mypen);
-
+				if (direction == 1){								//방향 삼각형(오른쪽)
+					MoveToEx(hdc, enemy[i].x + 20, enemy[i].y, NULL);
+					LineTo(hdc, enemy[i].x + 20, enemy[i].y + 20);
+					MoveToEx(hdc, enemy[i].x + 20, enemy[i].y + 20, NULL);
+					LineTo(hdc, enemy[i].x + 30, enemy[i].y + 10);
+					MoveToEx(hdc, enemy[i].x + 30, enemy[i].y + 10, NULL);
+					LineTo(hdc, enemy[i].x + 20, enemy[i].y);
+				}if (direction == 2){								//방향 삼각형(왼쪽)
+					MoveToEx(hdc, enemy[i].x, enemy[i].y, NULL);
+					LineTo(hdc, enemy[i].x, enemy[i].y + 20);
+					MoveToEx(hdc, enemy[i].x, enemy[i].y + 20, NULL);
+					LineTo(hdc, enemy[i].x - 10, enemy[i].y + 10);
+					MoveToEx(hdc, enemy[i].x - 10, enemy[i].y + 10, NULL);
+					LineTo(hdc, enemy[i].x, enemy[i].y);
+				}if (direction == 3){								//방향 삼각형(위)
+					MoveToEx(hdc, enemy[i].x, enemy[i].y, NULL);
+					LineTo(hdc, enemy[i].x + 20, enemy[i].y);
+					MoveToEx(hdc, enemy[i].x + 20, enemy[i].y, NULL);
+					LineTo(hdc, enemy[i].x + 10, enemy[i].y - 10);
+					MoveToEx(hdc, enemy[i].x + 10, enemy[i].y - 10, NULL);
+					LineTo(hdc, enemy[i].x, enemy[i].y);
+				}if (direction == 4){								//방향 삼각형(아래)
+					MoveToEx(hdc, enemy[i].x, enemy[i].y + 20, NULL);
+					LineTo(hdc, enemy[i].x + 20, enemy[i].y + 20);
+					MoveToEx(hdc, enemy[i].x + 20, enemy[i].y + 20, NULL);
+					LineTo(hdc, enemy[i].x + 10, enemy[i].y + 30);
+					MoveToEx(hdc, enemy[i].x + 10, enemy[i].y + 30, NULL);
+					LineTo(hdc, enemy[i].x, enemy[i].y + 20);
+				}
+				SelectObject(hdc, Oldpen);
+				DeleteObject(Mypen);
+			}
+		}
 		EndPaint(hWnd, &ps);
 		return 0;
 
 	case WM_TIMER:
-		if (TRUE == keyup){
-			retval = send(sock, (char*)&pl, sizeof(PLAYER), 0);
-			if (retval == SOCKET_ERROR){
-				err_display("send()");
-			}
-
+		retval = send(Mysock, (char*)&pl, sizeof(PLAYER), 0);
+		if (retval == SOCKET_ERROR){
+			err_display("send()");
 		}
 		return 0;
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		KillTimer(hWnd, 1);
 
-		return 0;
-	}
+	case WM_SOCKET:
+		if (WSAGETSELECTERROR(lParam)){
+			closesocket((SOCKET)wParam);
+			exit(-1);
+			break;
+		}
+		switch (WSAGETSELECTEVENT(lParam)){
+		case FD_READ:
+			ReadPacket((SOCKET)wParam);
+			break;
+		case FD_CLOSE:
+			closesocket((SOCKET)wParam);
+			exit(-1);
+			break;
+		}
+	default:break;
+	
+
+	case WM_DESTROY:
+		KillTimer(hWnd, 1);
+		PostQuitMessage(0);
+
+		return 0;	
+	
+		}
 
 	return(DefWindowProc(hWnd, iMessage, wParam, lParam));
 }
 
 DWORD WINAPI ClientMain(LPVOID arg){
-	int retval;
+	//int retval;
 
-	while (1){
-		retval = recvn(sock, (char*)&bufP, sizeof(PLAYER), 0);
-		if (retval == SOCKET_ERROR){
-			err_display("recv()");
-			break;
-		}
-		if (retval == 0)
-			break;
-		if (0 != retval){
-			AllocConsole();
-			freopen("CONOUT$", "wt", stdout);
-			printf("연결 되었습니다!\n");
+	//while (1){
+	//	retval = recvn(Mysock, (char*)&bufP, sizeof(PLAYER), 0);
+	//	if (retval == SOCKET_ERROR){
+	//		err_display("recv()");
+	//		break;
+	//	}
+	//	if (retval == 0)
+	//		break;
+	//	if (0 != retval){
+	//		AllocConsole();
+	//		freopen("CONOUT$", "wt", stdout);
+	//		printf("연결 되었습니다!\n");
 
-		}
-	}
-	
+	//	}
+	//}
+
 	// closesocket()
-	closesocket(sock);
+	closesocket(Mysock);
 
 	// 윈속 종료
 	WSACleanup();

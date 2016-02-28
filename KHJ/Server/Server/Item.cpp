@@ -1,4 +1,4 @@
-#include "Protocol.h"
+#include "Item.h"
 
 using namespace std;
 
@@ -7,3 +7,7 @@ using namespace std;
 
 CItem::CItem(){}
 CItem::~CItem(){}
+
+void CItem::ItemSet(){
+
+}

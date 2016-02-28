@@ -6,8 +6,6 @@ const int NUM_THREADS = 6;
 const int STARTING_X = 4;
 const int STARTING_Y = 4;
 
-
-
 const int OP_SEND = 0;
 const int OP_RECV = 1;
 const int OP_MOVE = 2;
