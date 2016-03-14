@@ -1,33 +1,34 @@
-#include "Protocol.h"
+#include "Timer.h"
 
-using namespace std;
-
-//template<class T>
-
-CTimer::CTimer(){}
+CTimer::CTimer(){
+	startmin = 0;
+	startsec = 0;
+	countsec = 0;				//계속 변하는 sec값
+	min = 0;
+	sec = 0;
+}
 CTimer::~CTimer(){}
 
-void CTimer :: TimeCount(){
-	DWORD startsec = 0;
-	int startmin = 0;
-	int countsec = 0;				//계속 변하는 sec값
-	int min = 0;
-	int sec = 0;
-	int state;
+bool CTimer::TimeCount(int sec){					// 시간을 받아 그 만큼 카운트
+	
+	startsec = GetTickCount64() / 1000;
 
-	CGameManager GM;
-
-	if (1 == GM.state){
-		startsec = GetTickCount64() / 1000;
-
-	}
-	while (2 == GM.state)
-	{
-		countsec = (GetTickCount64() /1000 ) - startsec;
+	while (1){
+		countsec = (GetTickCount64() / 1000) - startsec;
 		
-		sec = countsec % 60;
-		min = countsec / 60;
-		printf("%d : %d", min, sec);
-		system("cls");
+		if (sec == countsec){
+			return true;
+		}
 	}
+	return false;
+}
+
+void CTimer::TimeLimit(int state){
+
+	//countsec = (GetTickCount64() / 1000) - startsec;
+
+	//sec = countsec % 60;
+	//min = countsec / 60;
+	//printf("%d : %d", min, sec);
+	//system("cls");
 }

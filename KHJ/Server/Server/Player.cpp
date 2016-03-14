@@ -1,7 +1,5 @@
 #include "Player.h"
 
-
-
 CPlayer::CPlayer(){
 
 }
@@ -40,5 +38,4 @@ SC_Player CPlayer::PlayerPos(char packet, SC_Player Pl){
 	} 
 	return Pl;
 }
-
 

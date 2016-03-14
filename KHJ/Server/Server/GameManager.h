@@ -1,33 +1,21 @@
 #pragma once
 
 #include "Protocol.h"
-#include "Server.h"
+#include "Timer.h"					// 상태 타이머
 
 using namespace std;
 
 class CGameManager{
-	
-
-private :
+public :	
 	CGameManager();
 	~CGameManager();
 
-public :
-	enum state{
-		standby		= 0,
-		start		= 1,
-		playing		= 2,
-		end			= 3,
-	};
-	int state = 0;
 	int m_room;
 	
-	CServer server;
+	CTimer playtimer;						// 초를 세서 게임 상태 변경
 	
-	void GameState(int m_room, int state);		//게임 스타트 관리
-
-
-public:
+	SC_State GameState(SC_State, int);		//게임 스타트 관리
+	// 접속 인원과 
 
 	static CGameManager& getInstance()
 	{

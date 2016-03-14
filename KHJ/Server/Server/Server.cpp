@@ -6,9 +6,18 @@ CRITICAL_SECTION cs;					//크리티컬 섹션
 HANDLE hIOCP;
 
 CPlayer m_player;
+CGameManager GM;				
 PLAYER client[8];
+SC_State gamestate;					// 게임 상태 관리
 
-CServer::CServer(){}
+//패킷
+SC_Player m_playerpacket[8] = { 0 };
+
+int usernum = 0;
+
+CServer::CServer(){
+	
+}
 CServer::~CServer(){}
 
 void CServer::PlayerInit(int id){
@@ -48,31 +57,29 @@ int CServer::GetNewClient_ID()
 	return -1;
 }
 
-SC_Player pos;
+SC_Player m_pos;
 
 void CServer::ProcessPacket(char* packet, int id){
 	
-	pos.x = client[id].x;
-	pos.y = client[id].y;
+	m_pos.x = client[id].x;
+	m_pos.y = client[id].y;
 
 	CS_key *key = reinterpret_cast<CS_key*> (packet);
 	//플레이어 키값 받을 시 플레이어 위치 및 여러가지 값 바꿔주기
 	if (CS_KEY == key->type){
-		pos.size = sizeof(pos);
-		pos.type = SC_PLAYER;
-		pos.ID = id;
-		pos = m_player.PlayerPos(key->movetype, pos);
+		m_pos.size = sizeof(m_pos);
+		m_pos.type = SC_PLAYER;
+		m_pos.ID = id;
+		m_pos = m_player.PlayerPos(key->movetype, m_pos);
 	}
 		
-	client[id].x = pos.x;
-	client[id].y = pos.y;
+	client[id].x = m_pos.x;
+	client[id].y = m_pos.y;
 
 	printf("%d, %d\n", client[id].x, client[id].y);
 	
 	for (int i = 0; i <= 8; ++i)
-		SendPacket(i, &pos);
-
-	// 아이템 처리
+			SendPacket(i, &m_pos);
 
 }
 
@@ -122,7 +129,7 @@ void CServer::Accept_thread(){
 		unsigned long recv_flag = 0;
 
 		ret = WSARecv(client_socket, &client[id].my_overapped.wsabuf, 1, NULL,
-				&recv_flag, &client[id].my_overapped.overapped, NULL);
+			&recv_flag, &client[id].my_overapped.overapped, NULL);
 
 		if (SOCKET_ERROR == ret){
 			int err_code = WSAGetLastError();
@@ -131,17 +138,36 @@ void CServer::Accept_thread(){
 				exit(-1);
 			}
 		}
-		
+
 		// 서버에서 클라로 보내줄 플레이어 패킷
 		// SC_Player
-		SC_Player m_playerpacket = { 0 };
-		m_playerpacket = m_player.PlayerAccept(id, m_playerpacket);
-		client[id].x = m_playerpacket.x ;
-		client[id].y = m_playerpacket.y;
+		m_playerpacket[id] = m_player.PlayerAccept(id, m_playerpacket[id]);
+		client[id].x = m_playerpacket[id].x;
+		client[id].y = m_playerpacket[id].y;
 		client[id].in_use = true;
+		++usernum;
 
-		for (int i = 0; i <= 8; ++i)
-			SendPacket(i, &m_playerpacket);		
+		for (int i = 0; i <= id; ++i)
+			SendPacket(i, &m_playerpacket[id]);
+		
+		// 이전에 들어와 있는 패킷을 다시 보내주는 작업
+		for (int i = 0; i <= 8; ++i){
+			if (false == client[i].in_use) continue;
+			if (i == id)continue;
+			m_playerpacket[id].ID = i;
+			m_playerpacket[id].x = client[i].x;
+			m_playerpacket[id].y = client[i].y;
+			SendPacket(id, &m_playerpacket[id]);
+		}	
+
+		// GameState
+		gamestate.size = sizeof(SC_State);
+		gamestate.type = SC_GAMESTATE;
+		gamestate = GM.GameState(gamestate, usernum);
+	
+		for (int i = 0; i <= id; ++i)
+			SendPacket(i, &gamestate);
+			
 	}
 }
 void CServer::Process_Event(event_type nowevent){
@@ -172,8 +198,15 @@ void CServer::worker_thread(){
 	
 		// 에러로 인한 접속 종료
 		if (0 == io_size){
-			//closesocket(client[key].sock);
-			//client[key].in_use = false;
+			SC_RemovePlayer repacket;
+			repacket.ID = key;
+			repacket.size = sizeof(repacket);
+			repacket.type = SC_REMOVE_PLAYER;
+			for (int i = 0; i < 8; ++i){
+				if (key == i) continue;
+				if (false == client[i].in_use) continue;
+				SendPacket(i, &repacket);
+			}
 		}
 		//recv
 		if (OP_RECV == over_ex->operation_type){
@@ -211,6 +244,12 @@ void CServer::worker_thread(){
  		else if (OP_SEND == over_ex->operation_type)
 			delete over_ex;
 	}
+}
+
+void CServer::Game_State(){				// 게임 상태 계속 해서 보내주기
+	// 접속 인원 체크해서 상태 변경
+	
+
 }
 
 void main(){

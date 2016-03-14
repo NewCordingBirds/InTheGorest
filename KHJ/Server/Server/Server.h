@@ -1,6 +1,6 @@
 #include "Protocol.h"
 #include "Player.h"
-//#include <WinSock2.h>
+#include "GameManager.h"
 
 const int NUM_THREADS = 6;
 const int STARTING_X = 4;
@@ -54,6 +54,7 @@ public:
 	static void ProcessPacket(char *packet, int id);
 	static void Accept_thread();
 	static void worker_thread();
+	static void Game_State();					// 게임 상태 변경해주기
 	void Process_Event(event_type nowevent);
 	static int GetNewClient_ID();
 

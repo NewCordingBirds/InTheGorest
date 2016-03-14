@@ -33,11 +33,11 @@
 #define KEY_DOWN				2
 #define KEY_RIGHT				3
 #define KEY_LEFT				4
-//케
-#define STATE_NORMAL			1
-#define STATE_DIZZY				2
-#define STATE_BOOSTER			3
-
+//게임 상태
+#define STANDBY					0
+#define READY					1
+#define PLAYING					2
+#define END						3
 
 //C->S
 #define CS_KEY					1
@@ -46,10 +46,12 @@
 #define CS_SHOOT				4
 
 //S->C
+#define SC_GAMESTATE			0
 #define SC_PLAYER				1
 #define SC_ITEM					2
 #define SC_TIMER				3
 #define SC_SHOOT				4
+#define SC_REMOVE_PLAYER		5
 
 using namespace std;
 
@@ -62,6 +64,7 @@ struct OVERAPPED_EX {
 	unsigned int prev_received;
 	unsigned int curr_packet_size;
 };
+
 struct PLAYER {
 	int x;								//임시로 float -> int
 	int y;
@@ -75,8 +78,10 @@ struct PLAYER {
 	//mutex	vl_lock;							// 대신 크리티컬 섹션 사용
 };
 
-
 #pragma pack (push, 1)
+
+// 패킷[0] = size
+// 패킷[1] = type
 
 struct CS_key{						// 키 값
 	BYTE size;
@@ -103,7 +108,11 @@ struct CS_ShootKey{					// 총 쏘는 키 받기
 
 //////////////////////////////////////////////
 
-
+struct SC_State{					// 게임 전체 상태
+	BYTE size;
+	BYTE type;						// 0
+	BYTE state;						// 0, 1, 2, 3
+};
 struct SC_Player{					// 플레이어 위치
 	BYTE size;	
 	BYTE type;						//1					
@@ -117,8 +126,8 @@ struct SC_Player{					// 플레이어 위치
 };
 
 struct SC_Item{						// 아이템 위치
-	BYTE type;						// 2
 	BYTE size;
+	BYTE type;						// 2
 	float x;
 	float y;
 	float z;
@@ -126,16 +135,24 @@ struct SC_Item{						// 아이템 위치
 };
 
 struct SC_Timer{
-	BYTE type;						// 3
 	BYTE size;
+	BYTE type;						// 3
 	float time;
 };
 
-struct SC_Shoot{							
+struct SC_Shoot{
+	BYTE size;							
 	BYTE type;						// 4
-	BYTE size;
 	int ID;
 };
+
+struct SC_RemovePlayer{
+	BYTE size;
+	BYTE type;						//5
+	int ID;
+};
+
+////////////
 
 struct SC_Room{
 	BYTE type;

@@ -8,6 +8,6 @@ using namespace std;
 CItem::CItem(){}
 CItem::~CItem(){}
 
-void CItem::ItemSet(){
-
-}
+//void CItem::ItemSet(){
+//
+//}

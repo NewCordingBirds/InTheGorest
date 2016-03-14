@@ -29,7 +29,7 @@ public:
 	static SC_Player PlayerAccept(int id, SC_Player packet);
 //	int InitPlayer ();					// 게임 시작 시 플레이어
 	static SC_Player PlayerPos(char packet, SC_Player Pl);				// 플레이어 위치
-	int ChangePlayerState (int state);						// 상태
+	SC_Player PlayerAvoid(SC_Player packet, int id);		// 플레이어 접속 끊길 시 삭제
 
 	float RotateX (float rotate);			// 좌우회전
 	float RotateY (float rotate);			// 상하회전
