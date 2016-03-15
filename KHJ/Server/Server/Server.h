@@ -54,7 +54,7 @@ public:
 	static void ProcessPacket(char *packet, int id);
 	static void Accept_thread();
 	static void worker_thread();
-	static void Game_State();					// 게임 상태 변경해주기
+	static void Game_State(SC_State);					// 게임 상태 변경해주기
 	void Process_Event(event_type nowevent);
 	static int GetNewClient_ID();
 

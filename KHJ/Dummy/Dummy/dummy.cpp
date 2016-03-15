@@ -6,7 +6,7 @@
 #include <stdlib.h> 
 #include <stdio.h>
 #include <time.h>
-#include "D:\InTheGorest\KHJ\Server\Server\Protocol.h"
+#include "D:\GraduationWork\InTheGorest\KHJ\Server\Server\Protocol.h"
 
 #define SERVERIP   "127.0.0.1"
 #define SERVERPORT 9000
@@ -100,6 +100,7 @@ void ProcessPacket(char *ptr){
 	switch (ptr[1]){
 	case SC_GAMESTATE:{
 		SC_State *game_state = reinterpret_cast<SC_State*>(ptr);
+		printf("%d \n", game_state->state);
 		if (PLAYING != game_state->state)
 			GameStart = false;
 		else GameStart = true;

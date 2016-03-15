@@ -11,21 +11,22 @@ SC_State CGameManager::GameState(SC_State packet, int Pnum){
 	{
 		printf("Standby");
 
-		if (2 <= Pnum)
+		if (1 < Pnum)
 			packet.state = READY;
 		return packet;
 	}
 	case READY:	{							// 전 인원 접속 시 게임 카운트
-		Start = playtimer.TimeCount(3);
 		printf("Ready");
+		Start = playtimer.TimeCount(3);
 		if (Start)				// 카운트 3초
 			packet.state = PLAYING;
 		return packet;
 	}
 
-	case PLAYING:							// 스타트~ 종료 지점
+	case PLAYING:{							// 스타트~ 종료 지점
 		printf("Start");
 		break;
+	}
 
 	case END:								// 한 플레이어라도 종료 지점 도착 시 게임 종료
 		// 1등 플레이어 도착

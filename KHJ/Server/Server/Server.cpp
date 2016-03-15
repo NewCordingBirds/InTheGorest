@@ -60,7 +60,7 @@ int CServer::GetNewClient_ID()
 SC_Player m_pos;
 
 void CServer::ProcessPacket(char* packet, int id){
-	
+
 	m_pos.x = client[id].x;
 	m_pos.y = client[id].y;
 
@@ -72,14 +72,21 @@ void CServer::ProcessPacket(char* packet, int id){
 		m_pos.ID = id;
 		m_pos = m_player.PlayerPos(key->movetype, m_pos);
 	}
-		
+
 	client[id].x = m_pos.x;
 	client[id].y = m_pos.y;
 
 	printf("%d, %d\n", client[id].x, client[id].y);
-	
-	for (int i = 0; i <= 8; ++i)
-			SendPacket(i, &m_pos);
+
+	for (int i = 0; i <= 8; ++i){
+	//	EnterCriticalSection(&cs);
+		SendPacket(i, &m_pos);
+	//	LeaveCriticalSection(&cs);
+	}
+
+	// state를 계속 해서 보내줌
+	for (int i = 0; i <= id; ++i)
+		SendPacket(i, &gamestate);
 
 }
 
@@ -87,87 +94,91 @@ void CServer::Accept_thread(){
 	struct sockaddr_in listen_addr;
 	struct sockaddr_in client_addr;
 
-	SOCKET listen_socket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL,
-		0, WSA_FLAG_OVERLAPPED );
+	if (STANDBY == gamestate.type){
+	
+		SOCKET listen_socket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL,
+			0, WSA_FLAG_OVERLAPPED);
 
-	ZeroMemory(&listen_addr, sizeof(listen_addr));
-	// listen
-	listen_addr.sin_family = AF_INET;
-	listen_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-	listen_addr.sin_port = htons(SERVER_PORT);
-	ZeroMemory(&listen_addr.sin_zero, 8);
+		ZeroMemory(&listen_addr, sizeof(listen_addr));
 
-	int ret = ::bind(listen_socket, reinterpret_cast<sockaddr*>(&listen_addr),
-		sizeof(listen_addr));
-	if (SOCKET_ERROR == ret){
-		error_display("BIND", WSAGetLastError());
-		exit(-1);
-	}
-	ret = listen(listen_socket, 8);
-	if (SOCKET_ERROR == ret) {
-		error_display("LISTEN", WSAGetLastError());
-		exit(-1);
-	}
-	while (true){
-		int addr_size = sizeof(client_addr);
-		SOCKET client_socket = WSAAccept(listen_socket, reinterpret_cast<sockaddr*>(&client_addr),
-			&addr_size, NULL, NULL);
-		if (INVALID_SOCKET == client_socket){
-			error_display("Accept", WSAGetLastError());
+		// listen
+		listen_addr.sin_family = AF_INET;
+		listen_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+		listen_addr.sin_port = htons(SERVER_PORT);
+		ZeroMemory(&listen_addr.sin_zero, 8);
+
+		int ret = ::bind(listen_socket, reinterpret_cast<sockaddr*>(&listen_addr),
+			sizeof(listen_addr));
+		if (SOCKET_ERROR == ret){
+			error_display("BIND", WSAGetLastError());
+			exit(-1);
+		}
+		ret = listen(listen_socket, 8);
+		if (SOCKET_ERROR == ret) {
+			error_display("LISTEN", WSAGetLastError());
 			exit(-1);
 		}
 
-
-		// 플레이어 접속 / 위치 / 상태
-		int id = GetNewClient_ID();
-		client[id].sock = client_socket;
-
-		printf("접속 %s \n ID : %d \n", inet_ntoa(client_addr.sin_addr), id);
-
-		CreateIoCompletionPort(reinterpret_cast<HANDLE>(client_socket),
-			hIOCP, id, 0);
-		unsigned long recv_flag = 0;
-
-		ret = WSARecv(client_socket, &client[id].my_overapped.wsabuf, 1, NULL,
-			&recv_flag, &client[id].my_overapped.overapped, NULL);
-
-		if (SOCKET_ERROR == ret){
-			int err_code = WSAGetLastError();
-			if (WSA_IO_PENDING != err_code){
-				error_display("Accept(WSARecv):", err_code);
+		while (true){
+			int addr_size = sizeof(client_addr);
+			SOCKET client_socket = WSAAccept(listen_socket, reinterpret_cast<sockaddr*>(&client_addr),
+				&addr_size, NULL, NULL);
+			if (INVALID_SOCKET == client_socket){
+				error_display("Accept", WSAGetLastError());
 				exit(-1);
 			}
-		}
 
-		// 서버에서 클라로 보내줄 플레이어 패킷
-		// SC_Player
-		m_playerpacket[id] = m_player.PlayerAccept(id, m_playerpacket[id]);
-		client[id].x = m_playerpacket[id].x;
-		client[id].y = m_playerpacket[id].y;
-		client[id].in_use = true;
-		++usernum;
+			// 플레이어 접속 / 위치 / 상태
+			int id = GetNewClient_ID();
+			client[id].sock = client_socket;
 
-		for (int i = 0; i <= id; ++i)
-			SendPacket(i, &m_playerpacket[id]);
-		
-		// 이전에 들어와 있는 패킷을 다시 보내주는 작업
-		for (int i = 0; i <= 8; ++i){
-			if (false == client[i].in_use) continue;
-			if (i == id)continue;
-			m_playerpacket[id].ID = i;
-			m_playerpacket[id].x = client[i].x;
-			m_playerpacket[id].y = client[i].y;
-			SendPacket(id, &m_playerpacket[id]);
-		}	
+			printf("접속 %s \n ID : %d \n", inet_ntoa(client_addr.sin_addr), id);
 
-		// GameState
-		gamestate.size = sizeof(SC_State);
-		gamestate.type = SC_GAMESTATE;
-		gamestate = GM.GameState(gamestate, usernum);
-	
-		for (int i = 0; i <= id; ++i)
-			SendPacket(i, &gamestate);
+			CreateIoCompletionPort(reinterpret_cast<HANDLE>(client_socket),
+				hIOCP, id, 0);
+			unsigned long recv_flag = 0;
+
+			ret = WSARecv(client_socket, &client[id].my_overapped.wsabuf, 1, NULL,
+				&recv_flag, &client[id].my_overapped.overapped, NULL);
+
+			if (SOCKET_ERROR == ret){
+				int err_code = WSAGetLastError();
+				if (WSA_IO_PENDING != err_code){
+					error_display("Accept(WSARecv):", err_code);
+					exit(-1);
+				}
+			}
+
+			// 서버에서 클라로 보내줄 플레이어 패킷
+			// SC_Player
+			m_playerpacket[id] = m_player.PlayerAccept(id, m_playerpacket[id]);
+			client[id].x = m_playerpacket[id].x;
+			client[id].y = m_playerpacket[id].y;
+			client[id].in_use = true;
 			
+
+			for (int i = 0; i <= id; ++i){
+				SendPacket(i, &m_playerpacket[id]);
+			}
+
+			// 이전에 들어와 있는 패킷을 다시 보내주는 작업
+			for (int i = 0; i <= 8; ++i){
+				if (false == client[i].in_use) continue;
+				if (i == id)continue;
+				m_playerpacket[id].ID = i;
+				m_playerpacket[id].x = client[i].x;
+				m_playerpacket[id].y = client[i].y;
+				SendPacket(id, &m_playerpacket[id]);
+			}
+			
+			++usernum;
+			gamestate.size = sizeof(SC_State);
+			gamestate.type = SC_GAMESTATE;
+			gamestate = GM.GameState(gamestate, usernum);
+			
+			for (int i = 0; i <= id; ++i)
+				SendPacket(i, &gamestate);
+		}
 	}
 }
 void CServer::Process_Event(event_type nowevent){
@@ -246,14 +257,10 @@ void CServer::worker_thread(){
 	}
 }
 
-void CServer::Game_State(){				// 게임 상태 계속 해서 보내주기
-	// 접속 인원 체크해서 상태 변경
-	
-
-}
-
 void main(){
 	//CServer server;
+	//	InitializeCriticalSection(&cs);
+
 	vector <thread *> worker_threads;
 
 	_wsetlocale(LC_ALL, L"korean");
@@ -268,6 +275,8 @@ void main(){
 		worker_threads.push_back(new thread{ CServer::worker_thread });
 
 	thread acc = thread{ CServer::Accept_thread };
+
+	//DeleteCriticalSection(&cs);
 
 	while (true){
 		Sleep(1000);
