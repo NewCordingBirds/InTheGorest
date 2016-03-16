@@ -220,7 +220,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	PAINTSTRUCT ps;
 	//static point line;
 	static HANDLE hTimer;
-
+	
+	HBRUSH MyBrush, OldBrush;
 	HPEN Mypen, Oldpen;
 
 	static int CH_x, CH_y;			//케릭터 좌표
@@ -343,6 +344,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
 		//임시 케릭터
 		if (Mych){
+			MyBrush = CreateHatchBrush(HS_BDIAGONAL, RGB(255, 0, 0));
+			OldBrush = (HBRUSH)SelectObject(hdc, MyBrush);
 			Mypen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
 			Oldpen = (HPEN)SelectObject(hdc, Mypen);
 			Ellipse(hdc, pl.x, pl.y, pl.x + 20, pl.y + 20);		//캐릭터 본체(원형)
@@ -376,11 +379,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			//	MoveToEx(hdc, pl.x + 10, pl.y + 30, NULL);
 			//	LineTo(hdc, pl.x, pl.y + 20);
 			//}
+			SelectObject(hdc, OldBrush);
 			SelectObject(hdc, Oldpen);
+			DeleteObject(MyBrush);
 			DeleteObject(Mypen);
 		}
 		for (int i = 0; i <  8; ++i){
-			if (Enemych[i]){												// 타 플레이어
+			if (Enemych[i]){	// 타 플레이어
+
+				MyBrush = CreateHatchBrush(HS_BDIAGONAL, RGB(0, 0, 0));
+				OldBrush = (HBRUSH)SelectObject(hdc, MyBrush);
 				Mypen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
 				Oldpen = (HPEN)SelectObject(hdc, Mypen);
 				Ellipse(hdc, enemy[i].x, enemy[i].y, enemy[i].x + 20, enemy[i].y + 20);		//캐릭터 본체(원형)
@@ -413,8 +421,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 				//	LineTo(hdc, enemy[i].x + 10, enemy[i].y + 30);
 				//	MoveToEx(hdc, enemy[i].x + 10, enemy[i].y + 30, NULL);
 				//	LineTo(hdc, enemy[i].x, enemy[i].y + 20);
-				//}
+				//}			
+				
+				SelectObject(hdc, OldBrush);
 				SelectObject(hdc, Oldpen);
+				DeleteObject(MyBrush);
 				DeleteObject(Mypen);
 
 			}
