@@ -38,8 +38,6 @@ int myID;
 int enemyID[7];
 bool GameStart;						// 게임 스타트
 
-
-
 DWORD WINAPI ClientMain(LPVOID arg);
 
 // 소켓 함수 오류 출력 후 종료
@@ -231,9 +229,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	static bool pillow[5];			//배게 5개 랜덤 등장
 	static bool have_pillow;
 
-
 	static int hori;				// x축		0-> 초기 1-> + 2-> -
 	static int verti;				// y축
+
+	static bool shoot;				// 총알(한번에 열개 까지)
+										// 서버에서는 쏘았다는 신호만 보내 줄 것
+	static int shootCount;
+
 
 	static int pillow_x[5], pillow_y[5];	//배게의 위치
 
@@ -272,14 +274,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		return 0;
 		hori = 0;
 		verti = 0;
+		shootCount = 0;
+		shoot = false;
 
 		//hTimer = (HANDLE)SetTimer(hWnd, 1, 30, NULL);
 
 		return 0;
 
 	case WM_KEYDOWN:{
-
+		
 		if (GameStart){
+			//CS_ShootKey *shootkey = reinterpret_cast<CS_ShootKey*>(send_buf);
 			CS_key *key = reinterpret_cast<CS_key*> (send_buf);
 			if (wParam == VK_RIGHT){
 				hori = 1;
@@ -296,7 +301,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			if (wParam == VK_DOWN){
 				verti = 2;
 				hori = 0;
-			}
+			}/*if (wParam == VK_SPACE){
+				shoot = true;
+			}*/
 			key->type = CS_KEY;
 			key->size = sizeof(CS_key);
 			sendWSA.len = sizeof(CS_key);
@@ -328,13 +335,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 				int error_code = WSAGetLastError();
 				printf("Error while sending packet[%d]", error_code);
 			}
+
+
 			//InvalidateRect(hWnd, NULL, TRUE);
 		}
 	}
 		return 0;
 
 	case WM_KEYUP:
-		//GameStart = false;
+		shoot = false;
 		return 0;
 
 	case WM_PAINT:
