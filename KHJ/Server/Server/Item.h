@@ -5,10 +5,11 @@ using namespace std;
 
 class CItem{
 
-public:	
+private:
 	CItem();
 	~CItem();
 
+public:
 	bool isExist;									//아이템 존재 여부
 
 	void ItemSet(int x, int y, int z);

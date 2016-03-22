@@ -1,16 +1,14 @@
-#pragma once
-
 #include "Protocol.h"
 
 using namespace std;
 
 //template <class T>
 class CTimer{
-
-public:	
+public:
 	CTimer();
 	~CTimer();
 
+public:	
 	DWORD startsec;
 	int startmin;
 	int countsec;

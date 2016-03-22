@@ -25,11 +25,11 @@ struct event_type{
 };
 
 class CServer{
-public:
+private:
 	CServer();
 	~CServer();
 
-
+public:
 	static void error_display(char *msg, int err_no)
 	{
 		WCHAR *lpMsgBuf;

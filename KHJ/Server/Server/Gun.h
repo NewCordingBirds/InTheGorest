@@ -1,10 +1,11 @@
 #include "Protocol.h"
 
 class CGun{
-public:
-
+private:
 	CGun();
 	~CGun();
+
+public:
 
 	int m_ID;
 

@@ -1,11 +1,14 @@
 #include "GameManager.h"
+#include "Timer.h"
+
 CGameManager::CGameManager(){}
 CGameManager::~CGameManager(){}
 
 SC_State CGameManager::GameState(SC_State packet, int Pnum){
-	
+	CTimer playtimer;						// 초를 세서 게임 상태 변경
+
 	static bool Start = false;
-	
+
 	switch (packet.state){
 	case STANDBY:
 	{

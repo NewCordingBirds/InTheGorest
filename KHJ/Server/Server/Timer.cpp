@@ -1,11 +1,6 @@
 #include "Timer.h"
 
 CTimer::CTimer(){
-	startmin = 0;
-	startsec = 0;
-	countsec = 0;				//계속 변하는 sec값
-	min = 0;
-	sec = 0;
 }
 CTimer::~CTimer(){}
 

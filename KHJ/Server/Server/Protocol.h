@@ -10,15 +10,6 @@
 #include <mutex>
 #include <thread>
 
-//#include "GameManager.h"
-//#include "Item.h"
-//#include "MemoryPool.h"
-//#include "Player.h"
-//#include "SingleTon.h"
-//#include "Timer.h"
-//#include "Server.h"
-//#include "Gun.h"
-
 #define MAXUSER					1000
 #define SERVER_PORT				9000
 
@@ -83,13 +74,13 @@ struct PLAYER {
 // 패킷[0] = size
 // 패킷[1] = type
 
-struct CS_key{						// 키 값
+struct CS_key{						// 키 값 -> 키 조작
 	BYTE size;
 	BYTE type;						// 1		
-	int direction;					//방향(일단 더미에서만)
+	int direction;					// 방향(일단 더미에서만)
 	int movetype;					// 1234
 };
-struct CS_Rotate{					// 플레이어 회전
+struct CS_Rotate{					// 플레이어 회전 -> 마우스 조작
 	BYTE size;
 	BYTE type;						//2
 	float rotateX;
