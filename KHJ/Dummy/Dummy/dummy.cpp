@@ -17,13 +17,13 @@
 
 #define WM_SOCKET			WM_USER+1
 
-PLAYER enemy[7];				// 다른 플레이어 7명
+PLAYER enemy[8];				// 다른 플레이어 7명
 PLAYER pl;							// 본인
 PLAYER bufP;
 
 int countplayer = 0;						// 접속한 사람 수
 bool Mych = 0;
-bool Enemych[7] = { 0 };
+bool Enemych[8] = { 0 };
 
 HWND g_hWnd;
 SOCKET Mysock;
@@ -35,7 +35,7 @@ char packet_buf[BUFSIZE];
 DWORD packet_size = 0;
 int savePacketsize = 0;
 int myID;
-int enemyID[7];
+int enemyID[8];
 bool GameStart;						// 게임 스타트
 
 DWORD WINAPI ClientMain(LPVOID arg);

@@ -1,22 +1,20 @@
-//#include "Protocol.h"
 #include "Server.h"
 
-CRITICAL_SECTION cs;					//크리티컬 섹션
-
 HANDLE hIOCP;
+PLAYER CServer::client[8] = { 0, };
 
-CPlayer m_player;
-CGameManager GM;				
-PLAYER client[8];
-SC_State gamestate;					// 게임 상태 관리
+//패킷	
+SC_Player CServer::m_pos;
+SC_Player CServer::m_playerpacket;
+SC_State CServer::gamestate;
 
-//패킷
-SC_Player m_playerpacket[8] = { 0 };
+CPlayer CServer::m_player;
+CGameManager CServer::GM;
 
-int usernum = 0;
+CServer* CServer::m_serverInstance = NULL;
 
 CServer::CServer(){
-	
+	usernum = 0;
 }
 CServer::~CServer(){}
 
@@ -57,8 +55,6 @@ int CServer::GetNewClient_ID()
 	return -1;
 }
 
-SC_Player m_pos;
-
 void CServer::ProcessPacket(char* packet, int id){
 
 	m_pos.x = client[id].x;
@@ -78,14 +74,14 @@ void CServer::ProcessPacket(char* packet, int id){
 
 	printf("%d, %d\n", client[id].x, client[id].y);
 
-	for (int i = 0; i <= 8; ++i){
+	for (int i = 0; i <= usernum; ++i){
 	//	EnterCriticalSection(&cs);
 		SendPacket(i, &m_pos);
 	//	LeaveCriticalSection(&cs);
 	}
 
 	// state를 계속 해서 보내줌
-	for (int i = 0; i <= id; ++i)
+	for (int i = 0; i <= usernum; ++i)
 		SendPacket(i, &gamestate);
 
 }
@@ -148,35 +144,35 @@ void CServer::Accept_thread(){
 					exit(-1);
 				}
 			}
-
+			++usernum;					// 접속 시 유저 수
 			// 서버에서 클라로 보내줄 플레이어 패킷
 			// SC_Player
-			m_playerpacket[id] = m_player.PlayerAccept(id, m_playerpacket[id]);
-			client[id].x = m_playerpacket[id].x;
-			client[id].y = m_playerpacket[id].y;
+			m_playerpacket = m_player.PlayerAccept(id, m_playerpacket);
+			client[id].x = m_playerpacket.x;
+			client[id].y = m_playerpacket.y;
 			client[id].in_use = true;
-			
 
-			for (int i = 0; i <= id; ++i){
-				SendPacket(i, &m_playerpacket[id]);
+			for (int i = 0; i <= usernum; ++i){
+				SendPacket(i, &m_playerpacket);
 			}
 
 			// 이전에 들어와 있는 패킷을 다시 보내주는 작업
-			for (int i = 0; i <= 8; ++i){
+			for (int i = 0; i <= usernum; ++i){
 				if (false == client[i].in_use) continue;
 				if (i == id)continue;
-				m_playerpacket[id].ID = i;
-				m_playerpacket[id].x = client[i].x;
-				m_playerpacket[id].y = client[i].y;
-				SendPacket(id, &m_playerpacket[id]);
+				m_playerpacket.ID = i;
+				m_playerpacket.x = client[i].x;
+				m_playerpacket.y = client[i].y;
+				SendPacket(id, &m_playerpacket);
 			}
 			
-			++usernum;
+			///////////////////////////////////////////////////// 유저 수 count다시 짜기
+
 			gamestate.size = sizeof(SC_State);
 			gamestate.type = SC_GAMESTATE;
 			gamestate = GM.GameState(gamestate, usernum);
 			
-			for (int i = 0; i <= id; ++i)
+			for (int i = 0; i <= usernum; ++i)
 				SendPacket(i, &gamestate);
 		}
 	}
@@ -200,7 +196,6 @@ void CServer::worker_thread(){
 
 	while (true)
 	{
-		bool test;
 		unsigned long io_size;
 		unsigned long key;
 		OVERAPPED_EX *over_ex;
@@ -259,22 +254,27 @@ void CServer::worker_thread(){
 
 void main(){
 	//CServer server;
-	//	InitializeCriticalSection(&cs);
+	//	InitializeCriticalSection(&cs);x
 
 	vector <thread *> worker_threads;
 
 	_wsetlocale(LC_ALL, L"korean");
-	CServer::NetworkInit();
+	CServer::GetInstance()->NetworkInit();
 
-	for (int i = 0; i < 8; ++i) 
-		CServer::PlayerInit(i);
+	for (int i = 0; i < 9; ++i) 
+		CServer::GetInstance()->PlayerInit(i);
 	
 	hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0);
 
 	for (int i = 0; i < NUM_THREADS; ++i)
-		worker_threads.push_back(new thread{ CServer::worker_thread });
+		//worker_threads.push_back(new thread{ CServer::GetInstance()->worker_thread() });
+		worker_threads.push_back(new thread{ [](){
+											CServer::GetInstance()->worker_thread();
+											} });
 
-	thread acc = thread{ CServer::Accept_thread };
+	thread acc = thread{ [](){
+						CServer::GetInstance()->Accept_thread();
+							} };
 
 	//DeleteCriticalSection(&cs);
 

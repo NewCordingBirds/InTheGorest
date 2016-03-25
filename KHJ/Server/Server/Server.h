@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "GameManager.h"
 
-const int NUM_THREADS = 6;
+const int NUM_THREADS = 10;
 const int STARTING_X = 4;
 const int STARTING_Y = 4;
 
@@ -29,9 +29,26 @@ private:
 	CServer();
 	~CServer();
 
+	int usernum;			// 들어와 있는 접속자 수	
+	
+	static CPlayer m_player;
+	static CGameManager GM;
+
+	static PLAYER client[8];
+
+	//패킷	
+	static SC_Player m_pos;
+	static SC_Player m_playerpacket;
+	static SC_State gamestate;
+
+	static CServer* m_serverInstance;				// 싱글톤 패턴
+
 public:
-	static void error_display(char *msg, int err_no)
+	CRITICAL_SECTION cs;					//크리티컬 섹션( 동기화시 사용 예정 )
+
+	void error_display(char *msg, int err_no)
 	{
+		
 		WCHAR *lpMsgBuf;
 		FormatMessage(
 			FORMAT_MESSAGE_ALLOCATE_BUFFER |
@@ -43,19 +60,27 @@ public:
 		wprintf(L"에러%s\n", lpMsgBuf);
 		LocalFree(lpMsgBuf);
 	}
-	static void NetworkInit()
+	void NetworkInit()
 	{
 		WSADATA wsadata;
 		WSAStartup(MAKEWORD(2, 2), &wsadata);
 	}
 
-	static void PlayerInit(int id);
-	static void SendPacket(int id, void *packet);
-	static void ProcessPacket(char *packet, int id);
-	static void Accept_thread();
-	static void worker_thread();
-	static void Game_State(SC_State);					// 게임 상태 변경해주기
+	void PlayerInit(int id);
+	void SendPacket(int id, void *packet);
+	void ProcessPacket(char *packet, int id);
+	void Accept_thread();
+	void worker_thread();
+	void Game_State(SC_State);					// 게임 상태 변경해주기
 	void Process_Event(event_type nowevent);
-	static int GetNewClient_ID();
+	int GetNewClient_ID();
+
+	static CServer* GetInstance(){
+		if (NULL == m_serverInstance)
+		{
+			m_serverInstance = new CServer;
+		}
+		return m_serverInstance;
+	}
 
 };

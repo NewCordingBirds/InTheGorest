@@ -14,7 +14,7 @@ SC_State CGameManager::GameState(SC_State packet, int Pnum){
 	{
 		printf("Standby");
 
-		if (1 < Pnum)
+		if (6 < Pnum)
 			packet.state = READY;
 		return packet;
 	}

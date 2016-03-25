@@ -5,15 +5,13 @@
 
 using namespace std;
 
-static class CGameManager{
+class CGameManager{
 
-protected:
+
+public:
 	CGameManager();
 	~CGameManager();
 
-public :	
-	int m_room;
-	
 	SC_State GameState(SC_State, int);		//게임 스타트 관리
 	// 접속 인원과 
 
@@ -22,4 +20,6 @@ public :
 		static CGameManager instance;
 		return instance;
 	}
+
+	int m_room;
 };

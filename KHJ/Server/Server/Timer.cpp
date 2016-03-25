@@ -20,10 +20,4 @@ bool CTimer::TimeCount(int sec){					// 시간을 받아 그 만큼 카운트
 
 void CTimer::TimeLimit(int state){
 
-	//countsec = (GetTickCount64() / 1000) - startsec;
-
-	//sec = countsec % 60;
-	//min = countsec / 60;
-	//printf("%d : %d", min, sec);
-	//system("cls");
 }

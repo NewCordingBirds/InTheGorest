@@ -4,12 +4,12 @@
 
 
 class CPlayer{
-private :
-	CPlayer();
-	~CPlayer();
+
 
 public:	
-	
+
+	CPlayer();
+	~CPlayer();
 
 	static PLAYER players[8];					//접속자 수
 
