@@ -24,7 +24,8 @@ public:
 
 	int HP;
 	int state;
-
+	float speed;
+	
 	int m_room;									// ¹æ ¹øÈ£
 
 	static SC_Player PlayerAccept(int id, SC_Player packet);

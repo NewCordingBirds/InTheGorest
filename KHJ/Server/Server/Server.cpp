@@ -13,8 +13,9 @@ CGameManager CServer::GM;
 
 CServer* CServer::m_serverInstance = NULL;
 
-CServer::CServer(){
-	usernum = 0;
+CServer::CServer()
+	:usernum(0)
+{
 }
 CServer::~CServer(){}
 
@@ -75,11 +76,8 @@ void CServer::ProcessPacket(char* packet, int id){
 	printf("%d, %d\n", client[id].x, client[id].y);
 
 	for (int i = 0; i <= usernum; ++i){
-	//	EnterCriticalSection(&cs);
 		SendPacket(i, &m_pos);
-	//	LeaveCriticalSection(&cs);
 	}
-
 	// state를 계속 해서 보내줌
 	for (int i = 0; i <= usernum; ++i)
 		SendPacket(i, &gamestate);

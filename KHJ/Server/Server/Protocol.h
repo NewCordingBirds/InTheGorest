@@ -107,11 +107,12 @@ struct SC_State{					// 게임 전체 상태
 struct SC_Player{					// 플레이어 위치
 	BYTE size;	
 	BYTE type;						//1					
-	int x;
-	int y;
-	int z;
+	float x;
+	float y;
+	float z;
 	float rotate_x;					//좌우
 	float rotate_y;					//상하
+	float rotate_z;					//
 	int ID;		
 	int state;						//케릭터 상태 -> 추후에 이펙트 추가 시 사용
 };

@@ -235,8 +235,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	static bool shoot;				// 총알(한번에 열개 까지)
 										// 서버에서는 쏘았다는 신호만 보내 줄 것
 	static int shootCount;
-
-
 	static int pillow_x[5], pillow_y[5];	//배게의 위치
 
 	switch (iMessage) {
@@ -461,7 +459,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	
 
 	case WM_DESTROY:
-		//KillTimer(hWnd, 1);
+		//KillTimer(hWnd, 1);A
 		PostQuitMessage(0);
 
 		return 0;	

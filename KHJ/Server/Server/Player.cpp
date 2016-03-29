@@ -1,7 +1,8 @@
 #include "Player.h"
 
-CPlayer::CPlayer(){
-
+CPlayer::CPlayer()
+	:speed(150.0f)
+{
 }
 CPlayer::~CPlayer(){}
 
