@@ -1,0 +1,17 @@
+﻿Build started 2016-06-29 오후 9:17:48.
+     1>Project "E:\Git\InTheGorest\KHJ\Server\Server\Server.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\Git\InTheGorest\KHJ\Server\Release\Server.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\Git\InTheGorest\KHJ\Server\Release\Server.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\Git\InTheGorest\KHJ\Server\Release\Server.lib" /MACHINE:X86 /SAFESEH Release\Item.obj
+         Release\Player.obj
+         Release\GameManager.obj
+         Release\Server.obj
+         Release\Timer.obj
+         Generating code
+     1>e:\git\inthegorest\khj\server\server\gamemanager.cpp(45): warning C4715: 'CGameManager::GameState' : not all control paths return a value
+         Finished generating code
+         Server.vcxproj -> E:\Git\InTheGorest\KHJ\Server\Release\Server.exe
+     1>Done Building Project "E:\Git\InTheGorest\KHJ\Server\Server\Server.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.79
