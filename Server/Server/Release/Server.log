@@ -1,0 +1,20 @@
+﻿빌드 시작: 2016-05-12 오후 11:50:21
+     1>2 노드의 "D:\GraduationWork\cordingbirds\trunk\Project\Server\Server\Server.vcxproj" 프로젝트(Build 대상)입니다.
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\GraduationWork\cordingbirds\trunk\Project\Server\Release\Server.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\GraduationWork\cordingbirds\trunk\Project\Server\Release\Server.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\GraduationWork\cordingbirds\trunk\Project\Server\Release\Server.lib" /MACHINE:X86 /SAFESEH Release\Collision.obj
+         Release\Item.obj
+         Release\main.obj
+         Release\Map.obj
+         Release\Player.obj
+         Release\GameManager.obj
+         Release\Server.obj
+         Release\Timer.obj
+         Release\Gun.obj
+         코드를 생성하고 있습니다.
+         코드를 생성했습니다.
+         Server.vcxproj -> D:\GraduationWork\cordingbirds\trunk\Project\Server\Release\Server.exe
+     1>"D:\GraduationWork\cordingbirds\trunk\Project\Server\Server\Server.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
+
+빌드했습니다.
+
+경과 시간: 00:00:01.42

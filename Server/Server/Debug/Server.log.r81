@@ -1,0 +1,71 @@
+﻿빌드 시작: 2016-04-16 오전 1:42:07
+     1>2 노드의 "D:\GraduationWork\cordingbirds\trunk\Project\Server\Server\Server.vcxproj" 프로젝트(Build 대상)입니다.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Server.cpp
+         Server.cpp
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50092) : 'DXGI_STATUS_OCCLUDED'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50101) : 'DXGI_STATUS_CLIPPED'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50110) : 'DXGI_STATUS_NO_REDIRECTION'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50119) : 'DXGI_STATUS_NO_DESKTOP_ACCESS'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50128) : 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50137) : 'DXGI_STATUS_MODE_CHANGED'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50146) : 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50161) : 'DXGI_ERROR_INVALID_CALL'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50170) : 'DXGI_ERROR_NOT_FOUND'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50179) : 'DXGI_ERROR_MORE_DATA'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50188) : 'DXGI_ERROR_UNSUPPORTED'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50197) : 'DXGI_ERROR_DEVICE_REMOVED'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50206) : 'DXGI_ERROR_DEVICE_HUNG'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50216) : 'DXGI_ERROR_DEVICE_RESET'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50225) : 'DXGI_ERROR_WAS_STILL_DRAWING'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50235) : 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50244) : 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50254) : 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50263) : 'DXGI_ERROR_NONEXCLUSIVE'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50272) : 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50282) : 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50291) : 'DXGI_ERROR_REMOTE_OUTOFMEMORY'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50445) : 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'의 이전 정의를 참조하십시오.
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND' : 매크로 재정의
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50454) : 'D3D10_ERROR_FILE_NOT_FOUND'의 이전 정의를 참조하십시오.
+     1>d:\graduationwork\cordingbirds\trunk\project\server\server\server.cpp(66): warning C4244: '인수' : 'DWORD'에서 'char'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>d:\graduationwork\cordingbirds\trunk\project\server\server\server.cpp(117): warning C4996: 'WSASocketA': Use WSASocketW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+                 c:\program files (x86)\windows kits\8.1\include\um\winsock2.h(3457) : 'WSASocketA' 선언을 참조하십시오.
+     1>d:\graduationwork\cordingbirds\trunk\project\server\server\server.cpp(152): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+                 c:\program files (x86)\windows kits\8.1\include\um\winsock2.h(1868) : 'inet_ntoa' 선언을 참조하십시오.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\GraduationWork\cordingbirds\trunk\Project\Server\Debug\Server.exe" /INCREMENTAL /NOLOGO ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\GraduationWork\cordingbirds\trunk\Project\Server\Debug\Server.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\GraduationWork\cordingbirds\trunk\Project\Server\Debug\Server.lib" /MACHINE:X86 Debug\Collision.obj
+         Debug\main.obj
+         Debug\Player.obj
+         Debug\GameManager.obj
+         Debug\Server.obj
+         Debug\Timer.obj
+         Server.vcxproj -> D:\GraduationWork\cordingbirds\trunk\Project\Server\Debug\Server.exe
+     1>"D:\GraduationWork\cordingbirds\trunk\Project\Server\Server\Server.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
+
+빌드했습니다.
+
+경과 시간: 00:00:02.07
