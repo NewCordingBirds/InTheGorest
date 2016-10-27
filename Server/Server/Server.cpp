@@ -29,6 +29,7 @@ CServer::~CServer(){
 void CServer::PlayerInit(int id){
 	ZeroMemory(&CPlayer::getInstance().client[id].my_overapped, sizeof(OVERAPPED_EX));
 	CPlayer::getInstance().client[id].in_use = false;
+	CPlayer::getInstance().client[id].isDie = false;
 	CPlayer::getInstance().client[id].my_overapped.operation_type = OP_RECV;
 	CPlayer::getInstance().client[id].my_overapped.wsabuf.buf = CPlayer::getInstance().client[id].my_overapped.IOCPbuf;
 	CPlayer::getInstance().client[id].my_overapped.wsabuf.len = sizeof(CPlayer::getInstance().client[id].my_overapped.IOCPbuf);
@@ -80,16 +81,12 @@ void CServer::ProcessPacket(char* packet, int id){
 		SC_PlayerPos playerpos;
 		keyvalue = key->movetype;
 
-		
 		playerpos.ID = id;
 		playerpos.size = sizeof(SC_PlayerPos);
 		playerpos.type = SC_PLAYERPOS;
 
-		//EnterCriticalSection(&CPlayer::getInstance().client[id].cs);
 		playerpos.move = CPlayer::getInstance().PlayerPos(key->movetype, id);
-		//playerpos.move = CPlayer::getInstance().temporary(key->movetype, playerpos, id);
 		CPlayer::getInstance().client[id].position = playerpos.move;
-		//LeaveCriticalSection(&CPlayer::getInstance().client[id].cs);
 		//printf("%d \n", id);
 		for (int i = 0; i <= usernum; ++i)
 			SendPacket(i, &playerpos);
@@ -161,6 +158,14 @@ void CServer::ProcessPacket(char* packet, int id){
 		
 		//EnterCriticalSection(&cs);
 		wallpos.ID = id;
+
+		if (CPlayer::getInstance().client[id].isDie){
+			CPlayer::getInstance().client[id].isDie = false;
+			CPlayer::getInstance().client[id].accel = 100;
+			CPlayer::getInstance().client[id].position.y += 10;
+			CPlayer::getInstance().client[id].trigger = CPlayer::getInstance().noneTrigger;
+		}
+
 		//wallpos.move = CPlayer::CollWall(id);
 		if (CPlayer::getInstance().client[id].trigger == CPlayer::getInstance().ForwordTrigger
 			|| CPlayer::getInstance().client[id].trigger == CPlayer::getInstance().FDecelTrigger){
@@ -172,6 +177,7 @@ void CServer::ProcessPacket(char* packet, int id){
 			CPlayer::getInstance().client[id].trigger = CPlayer::getInstance().BcolTrigger;
 			CPlayer::getInstance().client[id].presstime = 1.f;
 		}
+
 		wallpos.move = CPlayer::getInstance().PlayerPos(COLLISION, id);
 		wallpos.size = sizeof(SC_PlayerPos);
 		wallpos.type = SC_PLAYERPOS;
@@ -222,6 +228,20 @@ void CServer::ProcessPacket(char* packet, int id){
 		for (int i = 0; i < usernum; ++i)
 			SendPacket(i, &aniser);
 		break;
+	}case CS_SHOT:{
+		CS_Shoot *ammo = reinterpret_cast<CS_Shoot*>(packet);
+		SC_Shoot ammoPos;
+
+		ammoPos.size = sizeof(ammoPos);
+		ammoPos.type = SC_SHOT;
+		ammoPos.ID = id;
+		ammoPos.ammonum = ammo->ammonum;
+		ammoPos.rotate = ammo->direction;
+
+		for (int i = 0; i < usernum; ++i)
+			SendPacket(i, &ammoPos);
+
+		break;
 	}case CS_GOAL:{
 		CS_Goal* goal = reinterpret_cast<CS_Goal*>(packet);
 		SC_Ranking ranking;
@@ -232,6 +252,7 @@ void CServer::ProcessPacket(char* packet, int id){
 		ranking.type = SC_RANKING;
 		ranking.ranking = rank;
 		ranking.ID = id;
+		CPlayer::getInstance().client[id].isDie = true;
 		//LeaveCriticalSection(&cs);
 
 		for (int i = 0; i < usernum; ++i)
@@ -244,33 +265,13 @@ void CServer::ProcessPacket(char* packet, int id){
 		}
 		++rank;
 		break;
-	}
-	case CS_SHOT:{
-		CS_Shoot *ammo = reinterpret_cast<CS_Shoot*>(packet);
-		SC_Shoot ammoPos;
+	}case CS_DIE:{
+		CS_Die *die = reinterpret_cast<CS_Die*>(packet);
 
-		ammoPos.ID = id;
-		ammoPos.size = sizeof(SC_Shoot);
-		ammoPos.type = SC_SHOT;
-		ammoPos.AMMOpos = ammo->AMMOpos;
-		ammoPos.ammonum = ammo->ammonum;
+		CPlayer::getInstance().client[id].accel = 0;
+		CPlayer::getInstance().client[id].isDie = true;
 
-		for (int i = 0; i < usernum; ++i)
-			SendPacket(i, &ammoPos);
-
-		break;
-	}
-	case CS_AVOIDAMMO:{
-		CS_Avoidammo *csAvoid = reinterpret_cast<CS_Avoidammo*>(packet);
-		SC_Avoidammo scAvoid;
-
-		scAvoid.id = id;
-		scAvoid.size = sizeof(SC_Avoidammo);
-		scAvoid.type = SC_AVOIDAMMO;
-		scAvoid.ammonum = scAvoid.ammonum;
-	
-		for (int i = 0; i < usernum; ++i)
-			SendPacket(i, &scAvoid);
+		//AddTimer(id, OP_DIE, 1000);
 
 		break;
 	}
@@ -342,6 +343,18 @@ void CServer::EndDuration(int id){
 		SendPacket(i, &endboost);
 	}
 
+}
+void CServer::EndDie(int id){
+	CPlayer::getInstance().client[id].accel = 100.0f;
+	CPlayer::getInstance().client[id].isDie = false;
+
+	SC_Die die;
+
+	die.ID = id;
+	die.size = sizeof(SC_Die);
+	die.type = SC_DIE;
+
+	SendPacket(id, &die);
 }
 void CServer::Timer_thread(){
 	while (1){
@@ -555,6 +568,12 @@ void CServer::Process_Event(event_type nowevent){
 		PostQueuedCompletionStatus(hIOCP, 1, nowevent.id,
 			reinterpret_cast<LPOVERLAPPED>(event_over));
 		break;
+	}case EVENT_DIE:{
+		OVERAPPED_EX *event_over = new OVERAPPED_EX;
+		event_over->operation_type = OP_DIE;
+		PostQueuedCompletionStatus(hIOCP, 1, nowevent.id,
+			reinterpret_cast<LPOVERLAPPED>(event_over));
+		break;
 	}
 	default:
 		printf("Unknown Event Type Detected! \n");
@@ -571,7 +590,17 @@ void CServer::CountTime(){								//계속해서 시간을 보내줌
 		for (int i = 0; i < usernum; ++i){
 			SendPacket(i, &time);
 		}
+}
+void CServer::SendShoot(int id){
+	SC_Shoot packet;
 
+	packet.ID = id;
+	packet.ammonum;
+	packet.size = sizeof(packet);
+	packet.type = SC_SHOT;
+	for (int i = 0; i < usernum; ++i){
+		SendPacket(i, &time);
+	}
 }
 void CServer::GameEnd(int id){
 	SC_State gamestate;
@@ -650,6 +679,12 @@ void CServer::Worker_thread(){
 		}
 		else if (OP_END == over_ex->operation_type){
 			GameEnd(key);
+		}
+		else if (OP_SHOT == over_ex->operation_type){
+			SendShoot(key);
+		}
+		else if (OP_DIE == over_ex->operation_type){
+			EndDie(key);
 		}
 	}
 }

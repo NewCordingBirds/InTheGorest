@@ -2,6 +2,7 @@
 
 #include "Player.h"
 #include "GameManager.h"
+//#include "Gun.h"
 #include "Item.h"
 
 const int NUM_THREADS = 6;
@@ -16,6 +17,9 @@ const int OP_DURA = 4;
 const int OP_EDURA = 5;
 const int OP_TIME = 6;
 const int OP_END = 7;
+const int OP_SHOT = 8;
+const int OP_BULLCOL = 9;
+const int OP_DIE = 10;
 
 extern HANDLE hIOCP;
 
@@ -28,6 +32,9 @@ const int EVENT_DURA = 5;
 const int EVENT_EDURA = 6;
 const int EVENT_TIME = 7;
 const int EVENT_END = 8;
+const int EVENT_SHOT = 9;
+const int EVENT_BULLCOL = 10;
+const int EVENT_DIE = 11;
 
 class CServer{
 private:
@@ -43,6 +50,7 @@ private:
 	bool readystate;		// timer에서 ready 수행 할때
 	bool dummypos;
 	bool endsignal;
+
 	DWORD keyvalue;			//이거 백퍼 꼬임
 
 
@@ -50,10 +58,10 @@ private:
 	CPlayer*					m_cplayer;
 	CTimer*						m_ctimer;
 	CItem*						m_cItem;
+	//CGun*						m_cgun;
 	mycomparison*				mycompare;
 
 	priority_queue <event_type, vector<event_type>, mycomparison> timerQ;
-	//priority_queue <event_type, vector<event_type>, mycomparison> itemQ;
 
 	event_type topEv;
 	
@@ -61,6 +69,7 @@ private:
 
 	CRITICAL_SECTION cs;
 	set<int> itemid;
+	BULLET bullet_info[1000];
 
 	//패킷	
 	//static SC_Player m_pos;
@@ -110,9 +119,11 @@ public:
 	void DurationColl(int);
 	void AddTimer(int, int, int);
 	void EndDuration(int);
+	void EndDie(int);
 	void CountTime();
 	void GameEnd(int id);
 	void SendPos(int id);
+	void SendShoot(int id);
 	void CleanUp();
 
 	static CServer* GetInstance(){

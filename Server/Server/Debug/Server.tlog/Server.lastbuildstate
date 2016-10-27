@@ -1,2 +1,8 @@
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v120:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
+<<<<<<< .mine
+Debug|Win32|D:\git\trunk\Project\Server\|
+||||||| .r337
+Debug|Win32|D:\GraduationWork\cordingbirds\trunk\Project\Server\|
+=======
 Debug|Win32|E:\cordingbirds\trunk\Project\Server\|
+>>>>>>> .r344

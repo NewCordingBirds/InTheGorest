@@ -51,6 +51,7 @@ PLAYING	=2,
 END		=3,
 };
 
+
 enum CS_PACKET{
 	CS_KEY = 1,
 	CS_ROTATE = 2,
@@ -63,24 +64,24 @@ enum CS_PACKET{
 	CS_BOOSTERITEM = 9,
 	CS_COLLWALL = 10,
 	CS_GOAL = 11,
-	CS_AVOIDAMMO = 12,
+	CS_DIE = 12,
 };
 
 enum SC_PACKET{
-	SC_INITPLAYER	=0 ,
-	SC_GAMESTATE	=1 ,
-	SC_PLAYERPOS	=2 ,
-	SC_PLAYERROTATE	=3 ,
-	SC_ITEMEXIST	=4 ,
-	SC_TIME			=5 ,
-	SC_REMOVE_PLAYER=6 ,
-	SC_SERVERANI	=7 ,
-	SC_AVOIDPLAYER	=8 ,
-	SC_RANKING		=9 ,
-	SC_ENDBOOST		=10,
-	SC_SHOT			=11,
-	SC_AVOIDAMMO	=12,
-
+	SC_INITPLAYER = 0,
+	SC_GAMESTATE = 1,
+	SC_PLAYERPOS = 2,
+	SC_PLAYERROTATE = 3,
+	SC_ITEMEXIST = 4,
+	SC_TIME = 5,
+	SC_REMOVE_PLAYER = 6,
+	SC_SERVERANI = 7,
+	SC_AVOIDPLAYER = 8,
+	SC_RANKING = 9,
+	SC_ENDBOOST = 10,
+	SC_SHOT = 11,
+	SC_BULLETCOL = 12,
+	SC_DIE = 13,
 };
 
 using namespace std;
@@ -100,6 +101,7 @@ struct PLAYER {
 	D3DXVECTOR3 direction;
 	D3DXVECTOR3 radian;
 	SOCKET sock;
+	bool isDie;
 	bool in_use;
 	OVERAPPED_EX my_overapped;
 	float speed;
@@ -120,14 +122,14 @@ struct COLLOBJ{
 	D3DXVECTOR3 blocksize;
 	int blocksort;					// map0, booster1
 };
-struct BULLET{
-	int num;
-	D3DXVECTOR3 pos;
-	D3DXVECTOR3 dir;
-};
 struct ITEM{
 	int id;
 	bool in_use;
+};
+struct BULLET{
+	D3DXVECTOR3 pos;
+	int player_id;
+	int bullet_id;
 };
 struct event_type{
 	int id;
@@ -175,8 +177,8 @@ struct CS_ItemGet{						// 아이템 획득
 struct CS_Shoot{						// 총 쏘는 키 받음
 	BYTE size;
 	CS_PACKET type;							// 4;
-	D3DXVECTOR3 AMMOpos;
 	int ammonum;
+	D3DXVECTOR3 direction;
 };
 struct CS_ClientAni{
 	BYTE size;
@@ -192,7 +194,8 @@ struct CS_CollBooster{					// 부스터존 충돌	->pos / rotate 넘김
 	CS_PACKET type;
 	D3DXVECTOR3 direction;
 };
-struct CS_UseBooster{
+struct CS_UseBooster
+{
 	BYTE size;
 	CS_PACKET type;							// 리커스터 사용	->pos로 넘김
 };
@@ -200,10 +203,9 @@ struct CS_Goal{
 	BYTE size;
 	CS_PACKET type;
 };
-struct CS_Avoidammo{
+struct CS_Die{
 	BYTE size;
 	CS_PACKET type;
-	int ammonum;
 };
 
 //////////////////////////////////////////////
@@ -247,9 +249,9 @@ struct SC_Item{						// 아이템 위치
 struct SC_Shoot{
 	BYTE size;
 	SC_PACKET type;						// 5
-	D3DXVECTOR3 AMMOpos;
 	int ID;
 	int ammonum;
+	D3DXVECTOR3 rotate;
 };
 struct SC_RemovePlayer{
 	BYTE size;
@@ -283,13 +285,16 @@ struct SC_Endboost{
 	SC_PACKET type;
 	int ID;
 };
-struct SC_Avoidammo{
+struct SC_bulletcol{
 	BYTE size;
 	SC_PACKET type;
-	int id;
-	int ammonum;
+	int ID;
 };
-
+struct SC_Die{
+	BYTE size;
+	SC_PACKET type;
+	int ID;
+};
 ////////////
 
 struct SC_Room{
@@ -298,5 +303,4 @@ struct SC_Room{
 	int num;
 	int ID[8];
 };
-
 #pragma pack (pop)

@@ -1,4 +1,3 @@
-
 #include "Protocol.h"
 
 
@@ -15,6 +14,7 @@ private:
 	float m_frametime;
 	float bouncespeed;
 	int usernum;
+	D3DXVECTOR3 Pl;
 	//static float timer[MAXUSER];
 	CTimer timer[MAXUSER];
 

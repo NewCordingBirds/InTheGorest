@@ -25,18 +25,27 @@ SC_InitPlayer CPlayer::PlayerAccept(int id){
 	packet.move = { x + (id * 10), y, z };
 	packet.speed = 0;
 	packet.accel = 100.0f;
+	
 	usernum++;
 	
 	return packet;
 }
 D3DXVECTOR3 CPlayer::PlayerPos(DWORD packet, int id){
-	D3DXVECTOR3 Pl = { 0, 0, 0 };
 
-	EnterCriticalSection(&client[id].cs);
+
+	//EnterCriticalSection(&client[id].cs);
 	client[id].frametime = timer[id].FramePerSec();
 	//client[id].frametime = 0.01f;	
-	LeaveCriticalSection(&client[id].cs);
+	//LeaveCriticalSection(&client[id].cs);
 	
+	if (client[id].isDie){
+		D3DXVECTOR3 diedir(0, 1, 0);
+		client[id].speed = 100.f;
+		client[id].position -= diedir * client[id].speed * client[id].frametime;
+		Pl = client[id].position;
+		return Pl;
+	}
+
 	if (noneTrigger == client[id].trigger || ForwordTrigger == client[id].trigger ||
 		BackwordTrigger == client[id].trigger || FDecelTrigger == client[id].trigger ||
 		BDecelTrigger == client[id].trigger){
@@ -116,15 +125,15 @@ D3DXVECTOR3 CPlayer::PlayerPos(DWORD packet, int id){
 		D3DXVECTOR3 vRight;
 		D3DXVec3Cross(&vRight, &D3DXVECTOR3(0.f, 1.f, 0.f), &client[id].direction);
 		
-		EnterCriticalSection(&client[id].cs);
+		//EnterCriticalSection(&client[id].cs);
 		if (client[id].avoidspeed > 0.0f){
 			client[id].avoidspeed -= client[id].accel * client[id].frametime * client[id].presstime;
 			client[id].presstime += 0.11f;
-		LeaveCriticalSection(&client[id].cs);
+		//LeaveCriticalSection(&client[id].cs);
 		}
-		EnterCriticalSection(&client[id].cs);
+		//EnterCriticalSection(&client[id].cs);
 		client[id].position -= vRight * client[id].avoidspeed * client[id].frametime;
-		LeaveCriticalSection(&client[id].cs);
+		//LeaveCriticalSection(&client[id].cs);
 	}
 
 	if (client[id].trigger == RAvoidTrigger){
@@ -146,9 +155,9 @@ D3DXVECTOR3 CPlayer::PlayerPos(DWORD packet, int id){
 		}else
 			LeaveCriticalSection(&client[id].cs);
 
-		EnterCriticalSection(&client[id].cs);
+		//EnterCriticalSection(&client[id].cs);
 		client[id].position += vRight * client[id].avoidspeed * client[id].frametime;
-		LeaveCriticalSection(&client[id].cs);
+		//LeaveCriticalSection(&client[id].cs);
 		//printf("player X pos = %f, speed = %f", client[id].position.x, client[id].speed);
 	}
 
@@ -195,6 +204,7 @@ void CPlayer::CollWall(int id){
 		client[id].trigger = noneTrigger;
 		client[id].presstime = 0;
 		client[id].boostertimming = false;
+		client[id].isDie = false;
 	}
 	if (client[id].trigger == FcolTrigger){
 		if (client[id].speed > 0.0f){
@@ -211,6 +221,7 @@ void CPlayer::CollWall(int id){
 		}
 		client[id].position += client[id].direction * client[id].speed * client[id].frametime;
 	}
+
 	//return client[id].position;
 }
 
