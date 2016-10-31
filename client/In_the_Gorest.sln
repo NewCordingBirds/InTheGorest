@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{58F5FF82-B829-49C5-9A10-BE2FD54BB4BA}"
+	ProjectSection(SolutionItems) = preProject
+		Client\Code\Sound.cpp = Client\Code\Sound.cpp
+		Client\Code\Sound.h = Client\Code\Sound.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{D5EF22D3-AFAC-4435-B2D3-CF00BCF19364}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\Include\Client.vcxproj", "{0A4EB44C-84C0-4A85-B882-1C3231276989}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "Server\Server.vcxproj", "{353FFC6A-6B91-4D01-82A5-323F3B252938}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MapTool", "MapTool", "{38529E73-A8A5-4E09-B595-2E7F2F2A9B39}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MapTool", "MapTool\Include\MapTool.vcxproj", "{0B0396DE-9455-49BA-9E3C-47527FFD5D0D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A4EB44C-84C0-4A85-B882-1C3231276989}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0A4EB44C-84C0-4A85-B882-1C3231276989}.Debug|Win32.Build.0 = Debug|Win32
+		{0A4EB44C-84C0-4A85-B882-1C3231276989}.Debug|x64.ActiveCfg = Debug|Win32
+		{0A4EB44C-84C0-4A85-B882-1C3231276989}.Release|Win32.ActiveCfg = Release|Win32
+		{0A4EB44C-84C0-4A85-B882-1C3231276989}.Release|Win32.Build.0 = Release|Win32
+		{0A4EB44C-84C0-4A85-B882-1C3231276989}.Release|x64.ActiveCfg = Release|Win32
+		{353FFC6A-6B91-4D01-82A5-323F3B252938}.Debug|Win32.ActiveCfg = Debug|Win32
+		{353FFC6A-6B91-4D01-82A5-323F3B252938}.Debug|Win32.Build.0 = Debug|Win32
+		{353FFC6A-6B91-4D01-82A5-323F3B252938}.Debug|x64.ActiveCfg = Debug|Win32
+		{353FFC6A-6B91-4D01-82A5-323F3B252938}.Release|Win32.ActiveCfg = Release|Win32
+		{353FFC6A-6B91-4D01-82A5-323F3B252938}.Release|Win32.Build.0 = Release|Win32
+		{353FFC6A-6B91-4D01-82A5-323F3B252938}.Release|x64.ActiveCfg = Release|Win32
+		{0B0396DE-9455-49BA-9E3C-47527FFD5D0D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0B0396DE-9455-49BA-9E3C-47527FFD5D0D}.Debug|Win32.Build.0 = Debug|Win32
+		{0B0396DE-9455-49BA-9E3C-47527FFD5D0D}.Debug|x64.ActiveCfg = Debug|Win32
+		{0B0396DE-9455-49BA-9E3C-47527FFD5D0D}.Release|Win32.ActiveCfg = Release|Win32
+		{0B0396DE-9455-49BA-9E3C-47527FFD5D0D}.Release|Win32.Build.0 = Release|Win32
+		{0B0396DE-9455-49BA-9E3C-47527FFD5D0D}.Release|x64.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0A4EB44C-84C0-4A85-B882-1C3231276989} = {58F5FF82-B829-49C5-9A10-BE2FD54BB4BA}
+		{353FFC6A-6B91-4D01-82A5-323F3B252938} = {D5EF22D3-AFAC-4435-B2D3-CF00BCF19364}
+		{0B0396DE-9455-49BA-9E3C-47527FFD5D0D} = {38529E73-A8A5-4E09-B595-2E7F2F2A9B39}
+	EndGlobalSection
+EndGlobal
