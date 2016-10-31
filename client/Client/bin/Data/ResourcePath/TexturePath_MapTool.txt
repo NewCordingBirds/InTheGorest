@@ -1,0 +1,10 @@
+1	0	0	Texture_Other	..\..\Client\bin\Resource\Texture\Fbx\Other.png
+1	0	0	Texture_Floor	..\..\Client\bin\Resource\Texture\Fbx\Floor.png
+1	0	0	Texture_Green_Bird_Island	..\..\Client\bin\Resource\Texture\Fbx\Green_Bird_Island.png
+1	0	0	Texture_Green_Island	..\..\Client\bin\Resource\Texture\Fbx\Green_Island.png
+1	0	0	Texture_Green_Tree	..\..\Client\bin\Resource\Texture\Fbx\Green_Tree.png
+1	0	1	Texture_SkyBox_00	..\..\Client\bin\Resource\Texture\SkyBox\SkyBox_00.dds
+1	0	1	Texture_SkyBox_01	..\..\Client\bin\Resource\Texture\SkyBox\SkyBox_01.dds
+1	0	1	Texture_SkyBox_02	..\..\Client\bin\Resource\Texture\SkyBox\SkyBox_02.dds
+1	0	0	Texture_Item_Full	..\..\Client\bin\Resource\Texture\Fbx\Item_Full.png
+1	0	0	Texture_Item_Third	..\..\Client\bin\Resource\Texture\Fbx\Item_Third.png

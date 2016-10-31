@@ -1,0 +1,343 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Code\Ammo.h" />
+    <ClInclude Include="..\Code\AmmoObserver.h" />
+    <ClInclude Include="..\Code\AniBuffer.h" />
+    <ClInclude Include="..\Code\AniShader.h" />
+    <ClInclude Include="..\Code\BackGround.h" />
+    <ClInclude Include="..\Code\BoosterZone.h" />
+    <ClInclude Include="..\Code\Bullet.h" />
+    <ClInclude Include="..\Code\CameraObserver.h" />
+    <ClInclude Include="..\Code\ColMgr.h" />
+    <ClInclude Include="..\Code\DirectionSign.h" />
+    <ClInclude Include="..\Code\Enemy.h" />
+    <ClInclude Include="..\Code\EnemyObserver.h" />
+    <ClInclude Include="..\Code\FbxParser.h" />
+    <ClInclude Include="..\Code\Font.h" />
+    <ClInclude Include="..\Code\FontShader.h" />
+    <ClInclude Include="..\Code\Grade.h" />
+    <ClInclude Include="..\Code\InMapMgr.h" />
+    <ClInclude Include="..\Code\InMapUI.h" />
+    <ClInclude Include="..\Code\Item.h" />
+    <ClInclude Include="..\Code\LoadMgr.h" />
+    <ClInclude Include="..\Code\Notify.h" />
+    <ClInclude Include="..\Code\ObjCol.h" />
+    <ClInclude Include="..\Code\Buffer.h" />
+    <ClInclude Include="..\Code\Camera.h" />
+    <ClInclude Include="..\Code\Collision.h" />
+    <ClInclude Include="..\Code\ColorShader.h" />
+    <ClInclude Include="..\Code\Component.h" />
+    <ClInclude Include="..\Code\CubeBuffer.h" />
+    <ClInclude Include="..\Code\Decoration.h" />
+    <ClInclude Include="..\Code\Device.h" />
+    <ClInclude Include="..\Code\DynamicCamera.h" />
+    <ClInclude Include="..\Code\DynamicModel.h" />
+    <ClInclude Include="..\Code\Floor.h" />
+    <ClInclude Include="..\Code\ModelBuffer.h" />
+    <ClInclude Include="..\Code\InfoSubject.h" />
+    <ClInclude Include="..\Code\InMap.h" />
+    <ClInclude Include="..\Code\KeyMgr.h" />
+    <ClInclude Include="..\Code\Layer.h" />
+    <ClInclude Include="..\Code\Loading.h" />
+    <ClInclude Include="..\Code\Lobby.h" />
+    <ClInclude Include="..\Code\MainGame.h" />
+    <ClInclude Include="..\Code\Obj.h" />
+    <ClInclude Include="..\Code\ObjMgr.h" />
+    <ClInclude Include="..\Code\Observer.h" />
+    <ClInclude Include="..\Code\Physics.h" />
+    <ClInclude Include="..\Code\PlanBuffer.h" />
+    <ClInclude Include="..\Code\Player.h" />
+    <ClInclude Include="..\Code\PlayerObserver.h" />
+    <ClInclude Include="..\Code\PlayingInfo.h" />
+    <ClInclude Include="..\Code\ProgressMgr.h" />
+    <ClInclude Include="..\Code\ProgressRate.h" />
+    <ClInclude Include="..\Code\ProgressRateZone.h" />
+    <ClInclude Include="..\Code\Protocol.h" />
+    <ClInclude Include="..\Code\Renderer.h" />
+    <ClInclude Include="..\Code\Resource.h" />
+    <ClInclude Include="..\Code\ResourceMgr.h" />
+    <ClInclude Include="..\Code\Rider.h" />
+    <ClInclude Include="..\Code\Room.h" />
+    <ClInclude Include="..\Code\RoomInfo.h" />
+    <ClInclude Include="..\Code\Scene.h" />
+    <ClInclude Include="..\Code\SceneMgr.h" />
+    <ClInclude Include="..\Code\ServerMgr.h" />
+    <ClInclude Include="..\Code\Shader.h" />
+    <ClInclude Include="..\Code\SkyBox.h" />
+    <ClInclude Include="..\Code\SkyBoxBuffer.h" />
+    <ClInclude Include="..\Code\SkyBoxShader.h" />
+    <ClInclude Include="..\Code\Sound.h" />
+    <ClInclude Include="..\Code\StaticCamera.h" />
+    <ClInclude Include="..\Code\StaticModel.h" />
+    <ClInclude Include="..\Code\Status.h" />
+    <ClInclude Include="..\Code\Subject.h" />
+    <ClInclude Include="..\Code\TargetBox.h" />
+    <ClInclude Include="..\Code\Texture.h" />
+    <ClInclude Include="..\Code\TextureShader.h" />
+    <ClInclude Include="..\Code\Timer.h" />
+    <ClInclude Include="..\Code\Title.h" />
+    <ClInclude Include="..\Code\Trigger.h" />
+    <ClInclude Include="..\Code\UI.h" />
+    <ClInclude Include="..\Code\UIBuffer.h" />
+    <ClInclude Include="..\Code\UIObserver.h" />
+    <ClInclude Include="..\Code\Unit.h" />
+    <ClInclude Include="..\Code\UnMovableZone.h" />
+    <ClInclude Include="..\Code\UserInfo.h" />
+    <ClInclude Include="..\Headers\Define.h" />
+    <ClInclude Include="..\Headers\Enum.h" />
+    <ClInclude Include="..\Headers\Function.h" />
+    <ClInclude Include="..\Headers\Functor.h" />
+    <ClInclude Include="..\Headers\Include.h" />
+    <ClInclude Include="..\Headers\KeyValue.h" />
+    <ClInclude Include="..\Headers\Namespace.h" />
+    <ClInclude Include="..\Headers\Struct.h" />
+    <ClInclude Include="..\Headers\Value.h" />
+    <ClInclude Include="Client.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Client.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Code\Ammo.cpp" />
+    <ClCompile Include="..\Code\AmmoObserver.cpp" />
+    <ClCompile Include="..\Code\AniBuffer.cpp" />
+    <ClCompile Include="..\Code\AniShader.cpp" />
+    <ClCompile Include="..\Code\BackGround.cpp" />
+    <ClCompile Include="..\Code\BoosterZone.cpp" />
+    <ClCompile Include="..\Code\Bullet.cpp" />
+    <ClCompile Include="..\Code\CameraObserver.cpp" />
+    <ClCompile Include="..\Code\ColMgr.cpp" />
+    <ClCompile Include="..\Code\DirectionSign.cpp" />
+    <ClCompile Include="..\Code\Enemy.cpp" />
+    <ClCompile Include="..\Code\EnemyObserver.cpp" />
+    <ClCompile Include="..\Code\FbxParser.cpp" />
+    <ClCompile Include="..\Code\Font.cpp" />
+    <ClCompile Include="..\Code\FontShader.cpp" />
+    <ClCompile Include="..\Code\Grade.cpp" />
+    <ClCompile Include="..\Code\InMapMgr.cpp" />
+    <ClCompile Include="..\Code\InMapUI.cpp" />
+    <ClCompile Include="..\Code\Item.cpp" />
+    <ClCompile Include="..\Code\LoadMgr.cpp" />
+    <ClCompile Include="..\Code\Notify.cpp" />
+    <ClCompile Include="..\Code\ObjCol.cpp" />
+    <ClCompile Include="..\Code\Buffer.cpp" />
+    <ClCompile Include="..\Code\Camera.cpp" />
+    <ClCompile Include="..\Code\Collision.cpp" />
+    <ClCompile Include="..\Code\ColorShader.cpp" />
+    <ClCompile Include="..\Code\Component.cpp" />
+    <ClCompile Include="..\Code\CubeBuffer.cpp" />
+    <ClCompile Include="..\Code\Decoration.cpp" />
+    <ClCompile Include="..\Code\Device.cpp" />
+    <ClCompile Include="..\Code\DynamicCamera.cpp" />
+    <ClCompile Include="..\Code\DynamicModel.cpp" />
+    <ClCompile Include="..\Code\Floor.cpp" />
+    <ClCompile Include="..\Code\ModelBuffer.cpp" />
+    <ClCompile Include="..\Code\InfoSubject.cpp" />
+    <ClCompile Include="..\Code\InMap.cpp" />
+    <ClCompile Include="..\Code\KeyMgr.cpp" />
+    <ClCompile Include="..\Code\Layer.cpp" />
+    <ClCompile Include="..\Code\Loading.cpp" />
+    <ClCompile Include="..\Code\Lobby.cpp" />
+    <ClCompile Include="..\Code\MainGame.cpp" />
+    <ClCompile Include="..\Code\Obj.cpp" />
+    <ClCompile Include="..\Code\ObjMgr.cpp" />
+    <ClCompile Include="..\Code\Observer.cpp" />
+    <ClCompile Include="..\Code\Physics.cpp" />
+    <ClCompile Include="..\Code\PlanBuffer.cpp" />
+    <ClCompile Include="..\Code\Player.cpp" />
+    <ClCompile Include="..\Code\PlayerObserver.cpp" />
+    <ClCompile Include="..\Code\PlayingInfo.cpp" />
+    <ClCompile Include="..\Code\ProgressMgr.cpp" />
+    <ClCompile Include="..\Code\ProgressRate.cpp" />
+    <ClCompile Include="..\Code\ProgressRateZone.cpp" />
+    <ClCompile Include="..\Code\Renderer.cpp" />
+    <ClCompile Include="..\Code\Resource.cpp" />
+    <ClCompile Include="..\Code\ResourceMgr.cpp" />
+    <ClCompile Include="..\Code\Rider.cpp" />
+    <ClCompile Include="..\Code\Room.cpp" />
+    <ClCompile Include="..\Code\RoomInfo.cpp" />
+    <ClCompile Include="..\Code\Scene.cpp" />
+    <ClCompile Include="..\Code\SceneMgr.cpp" />
+    <ClCompile Include="..\Code\ServerMgr.cpp" />
+    <ClCompile Include="..\Code\Shader.cpp" />
+    <ClCompile Include="..\Code\SkyBox.cpp" />
+    <ClCompile Include="..\Code\SkyBoxBuffer.cpp" />
+    <ClCompile Include="..\Code\SkyBoxShader.cpp" />
+    <ClCompile Include="..\Code\Sound.cpp" />
+    <ClCompile Include="..\Code\StaticCamera.cpp" />
+    <ClCompile Include="..\Code\StaticModel.cpp" />
+    <ClCompile Include="..\Code\Status.cpp" />
+    <ClCompile Include="..\Code\Subject.cpp" />
+    <ClCompile Include="..\Code\TargetBox.cpp" />
+    <ClCompile Include="..\Code\Texture.cpp" />
+    <ClCompile Include="..\Code\TextureShader.cpp" />
+    <ClCompile Include="..\Code\Timer.cpp" />
+    <ClCompile Include="..\Code\Title.cpp" />
+    <ClCompile Include="..\Code\Trigger.cpp" />
+    <ClCompile Include="..\Code\UI.cpp" />
+    <ClCompile Include="..\Code\UIBuffer.cpp" />
+    <ClCompile Include="..\Code\UIObserver.cpp" />
+    <ClCompile Include="..\Code\Unit.cpp" />
+    <ClCompile Include="..\Code\UnMovableZone.cpp" />
+    <ClCompile Include="..\Code\UserInfo.cpp" />
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\bin\Data\Fx\VertexAni.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\bin\Data\Fx\VertexColor.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\bin\Data\Fx\VertexColor_Red.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\bin\Data\Fx\VertexFont.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\bin\Data\Fx\VertexSkyBox.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\bin\Data\Fx\VertexTexture.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\bin\Data\Fx\VertexTexture_Reverse.fx">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\bin\Data\Prefab\Prefab_MapTool.txt" />
+    <Text Include="..\bin\Data\ResourcePath\AniPath.txt" />
+    <Text Include="..\bin\Data\ResourcePath\ModelPath_InMap.txt" />
+    <Text Include="..\bin\Data\ResourcePath\ModelPath_InMap_forFastTest.txt" />
+    <Text Include="..\bin\Data\ResourcePath\ModelPath_MapTool.txt" />
+    <Text Include="..\bin\Data\ResourcePath\TexturePath_InMap.txt" />
+    <Text Include="..\bin\Data\ResourcePath\TexturePath_MapTool.txt" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0A4EB44C-84C0-4A85-B882-1C3231276989}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>IntheGorest</RootNamespace>
+    <ProjectName>Client</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>../bin/</OutDir>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
+    <IncludePath>..\Include;..\..\Reference\Headers;E:\ProgramFiles\2015.1\include</IncludePath>
+    <LibraryPath>..\..\Reference\Librarys;E:\ProgramFiles\2015.1\lib\vs2013\x86\debug</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>../bin/</OutDir>
+    <LibraryPath>..\..\Reference\Librarys;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Include;..\..\Reference\Headers;$(IncludePath)</IncludePath>
+    <SourcePath>$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Code;../Headers;../../Reference/Headers;../../Reference\Librarys\FW1FontWrapper_1_1\x86</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../Reference/Librarys../../Reference\Librarys\FW1FontWrapper_1_1\x86</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Code;../Headers;../../Reference/Headers</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../Reference/Librarys../../Reference\Librarys\FW1FontWrapper_1_1\x86</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

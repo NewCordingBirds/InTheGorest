@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<DEFECTS><DEFECT><SFA><FILEPATH>e:\cordingbirds\trunk\project\in_the_gorest\client\code\</FILEPATH><FILENAME>anibuffer.cpp</FILENAME><LINE>77</LINE><COLUMN>10</COLUMN></SFA><DEFECTCODE>6031</DEFECTCODE><DESCRIPTION>반환 값이 무시되었습니다. 'getchar'.</DESCRIPTION><FUNCTION>CAniBuffer::CreateBuffer</FUNCTION><DECORATED>?CreateBuffer@CAniBuffer@@QAEXXZ</DECORATED><FUNCLINE>56</FUNCLINE><PATH/></DEFECT></DEFECTS>

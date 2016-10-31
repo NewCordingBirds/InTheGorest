@@ -1,0 +1,7 @@
+0	1	-1	Model_Green_Island_01	..\..\Client\bin\Resource\Model\Bg\Green_Island_01.FBX
+0	1	-1	Model_Green_Tree_02a	..\..\Client\bin\Resource\Model\Bg\Green_Tree_02a.FBX
+0	1	-1	Model_Green_Tree_02b	..\..\Client\bin\Resource\Model\Bg\Green_Tree_02b.FBX
+0	1	-1	Model_Green_Tree_02d	..\..\Client\bin\Resource\Model\Bg\Green_Tree_02d.FBX
+0	1	-1	Model_Land_02	..\..\Client\bin\Resource\Model\Bg\Land_02.FBX
+0	1	-1	Model_Land_Rock_01a	..\..\Client\bin\Resource\Model\Bg\Land_Rock_01a.FBX
+0	1	-1	Model_Rock_02	..\..\Client\bin\Resource\Model\Bg\Rock_02.FBX

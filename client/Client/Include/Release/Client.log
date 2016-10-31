@@ -1,0 +1,197 @@
+﻿빌드 시작: 2016-09-05 오전 11:35:37
+     1>2 노드의 "E:\cordingbirds\trunk\Project\In_the_Gorest\Client\Include\Client.vcxproj" 프로젝트(Build 대상)입니다.
+     1>FxCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\fxc.exe /nologo /E"main" /T fx_4_0 /Fo "../bin/VertexTexture.cso" ..\bin\Data\Fx\VertexTexture.fx 
+     1>FXC : warning X4717: Effects deprecated for D3DCompiler_47
+         
+         compilation object save succeeded; see E:\cordingbirds\trunk\Project\In_the_Gorest\Client\bin\VertexTexture.cso
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\fxc.exe /nologo /E"main" /T fx_4_0 /Fo "../bin/VertexTexture_Reverse.cso" ..\bin\Data\Fx\VertexTexture_Reverse.fx 
+     1>FXC : warning X4717: Effects deprecated for D3DCompiler_47
+         
+         compilation object save succeeded; see E:\cordingbirds\trunk\Project\In_the_Gorest\Client\bin\VertexTexture_Reverse.cso
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../Code /I../Headers /I../../Reference/Headers /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Release\Client.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../Code /I../Headers /I../../Reference/Headers /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Release\Client.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\Code\Ammo.cpp ..\Code\AmmoObserver.cpp ..\Code\AniBuffer.cpp ..\Code\AniShader.cpp ..\Code\BackGround.cpp ..\Code\BoosterZone.cpp ..\Code\Buffer.cpp ..\Code\Bullet.cpp ..\Code\Camera.cpp ..\Code\CameraObserver.cpp ..\Code\ColMgr.cpp ..\Code\Collision.cpp ..\Code\ColorShader.cpp ..\Code\Component.cpp ..\Code\CubeBuffer.cpp ..\Code\Decoration.cpp ..\Code\Device.cpp ..\Code\DirectionSign.cpp ..\Code\DynamicCamera.cpp ..\Code\DynamicModel.cpp ..\Code\Enemy.cpp ..\Code\EnemyObserver.cpp ..\Code\FbxParser.cpp ..\Code\Floor.cpp ..\Code\Font.cpp ..\Code\FontShader.cpp ..\Code\Grade.cpp ..\Code\InMap.cpp ..\Code\InMapMgr.cpp ..\Code\InMapUI.cpp ..\Code\InfoSubject.cpp ..\Code\Item.cpp ..\Code\KeyMgr.cpp ..\Code\Layer.cpp ..\Code\LoadMgr.cpp ..\Code\Loading.cpp ..\Code\Lobby.cpp ..\Code\MainGame.cpp ..\Code\ModelBuffer.cpp ..\Code\Notify.cpp ..\Code\Obj.cpp ..\Code\ObjCol.cpp ..\Code\ObjMgr.cpp ..\Code\Observer.cpp ..\Code\Physics.cpp ..\Code\PlanBuffer.cpp ..\Code\Player.cpp ..\Code\PlayerObserver.cpp ..\Code\PlayingInfo.cpp ..\Code\ProgressMgr.cpp ..\Code\ProgressRate.cpp ..\Code\ProgressRateZone.cpp ..\Code\Renderer.cpp ..\Code\Resource.cpp ..\Code\ResourceMgr.cpp ..\Code\Rider.cpp ..\Code\Room.cpp ..\Code\RoomInfo.cpp ..\Code\Scene.cpp ..\Code\SceneMgr.cpp ..\Code\ServerMgr.cpp ..\Code\Shader.cpp ..\Code\SkyBox.cpp ..\Code\SkyBoxBuffer.cpp ..\Code\SkyBoxShader.cpp ..\Code\Sound.cpp ..\Code\StaticCamera.cpp ..\Code\StaticModel.cpp ..\Code\Status.cpp ..\Code\Subject.cpp ..\Code\TargetBox.cpp ..\Code\Texture.cpp ..\Code\TextureShader.cpp ..\Code\Timer.cpp ..\Code\Title.cpp ..\Code\Trigger.cpp ..\Code\UI.cpp ..\Code\UIBuffer.cpp ..\Code\UIObserver.cpp ..\Code\UnMovableZone.cpp ..\Code\Unit.cpp ..\Code\UserInfo.cpp Client.cpp
+         Ammo.cpp
+         AmmoObserver.cpp
+         AniBuffer.cpp
+         AniShader.cpp
+         BackGround.cpp
+         BoosterZone.cpp
+         Buffer.cpp
+         Bullet.cpp
+         Camera.cpp
+         CameraObserver.cpp
+         ColMgr.cpp
+         Collision.cpp
+         ColorShader.cpp
+         Component.cpp
+         CubeBuffer.cpp
+         Decoration.cpp
+         Device.cpp
+         DirectionSign.cpp
+         DynamicCamera.cpp
+         DynamicModel.cpp
+         컴파일하고 있습니다...
+         Enemy.cpp
+         EnemyObserver.cpp
+         FbxParser.cpp
+         Floor.cpp
+         Font.cpp
+         FontShader.cpp
+         Grade.cpp
+         InMap.cpp
+         InMapMgr.cpp
+         InMapUI.cpp
+         InfoSubject.cpp
+         Item.cpp
+         KeyMgr.cpp
+         Layer.cpp
+         LoadMgr.cpp
+         Loading.cpp
+         Lobby.cpp
+         MainGame.cpp
+         ModelBuffer.cpp
+         Notify.cpp
+         컴파일하고 있습니다...
+         Obj.cpp
+         ObjCol.cpp
+         ObjMgr.cpp
+         Observer.cpp
+         Physics.cpp
+         PlanBuffer.cpp
+         Player.cpp
+         PlayerObserver.cpp
+         PlayingInfo.cpp
+         ProgressMgr.cpp
+     1>..\Code\ProgressMgr.cpp(67): warning C4018: '<=' : signed 또는 unsigned가 일치하지 않습니다.
+         ProgressRate.cpp
+         ProgressRateZone.cpp
+         Renderer.cpp
+         Resource.cpp
+         ResourceMgr.cpp
+         Rider.cpp
+         Room.cpp
+         RoomInfo.cpp
+         Scene.cpp
+         SceneMgr.cpp
+         컴파일하고 있습니다...
+         ServerMgr.cpp
+         Shader.cpp
+         SkyBox.cpp
+         SkyBoxBuffer.cpp
+         SkyBoxShader.cpp
+         Sound.cpp
+         StaticCamera.cpp
+         StaticModel.cpp
+         Status.cpp
+         Subject.cpp
+         TargetBox.cpp
+         Texture.cpp
+         TextureShader.cpp
+         Timer.cpp
+         Title.cpp
+         Trigger.cpp
+         UI.cpp
+         UIBuffer.cpp
+         UIObserver.cpp
+         UnMovableZone.cpp
+         컴파일하고 있습니다...
+         Unit.cpp
+         UserInfo.cpp
+         Client.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"../bin/Client.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:../../Reference/Librarys../../Reference\Librarys\FW1FontWrapper_1_1\x86 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"../bin/Client.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"../bin/Client.lib" /MACHINE:X86 /SAFESEH Release\Client.res
+         Release\Ammo.obj
+         Release\AmmoObserver.obj
+         Release\AniBuffer.obj
+         Release\AniShader.obj
+         Release\BackGround.obj
+         Release\BoosterZone.obj
+         Release\Bullet.obj
+         Release\CameraObserver.obj
+         Release\ColMgr.obj
+         Release\DirectionSign.obj
+         Release\Enemy.obj
+         Release\EnemyObserver.obj
+         Release\FbxParser.obj
+         Release\Font.obj
+         Release\FontShader.obj
+         Release\Grade.obj
+         Release\InMapMgr.obj
+         Release\InMapUI.obj
+         Release\Item.obj
+         Release\LoadMgr.obj
+         Release\Notify.obj
+         Release\ObjCol.obj
+         Release\Buffer.obj
+         Release\Camera.obj
+         Release\Collision.obj
+         Release\ColorShader.obj
+         Release\Component.obj
+         Release\CubeBuffer.obj
+         Release\Decoration.obj
+         Release\Device.obj
+         Release\DynamicCamera.obj
+         Release\DynamicModel.obj
+         Release\Floor.obj
+         Release\ModelBuffer.obj
+         Release\InfoSubject.obj
+         Release\InMap.obj
+         Release\KeyMgr.obj
+         Release\Layer.obj
+         Release\Loading.obj
+         Release\Lobby.obj
+         Release\MainGame.obj
+         Release\Obj.obj
+         Release\ObjMgr.obj
+         Release\Observer.obj
+         Release\Physics.obj
+         Release\PlanBuffer.obj
+         Release\Player.obj
+         Release\PlayerObserver.obj
+         Release\PlayingInfo.obj
+         Release\ProgressMgr.obj
+         Release\ProgressRate.obj
+         Release\ProgressRateZone.obj
+         Release\Renderer.obj
+         Release\Resource.obj
+         Release\ResourceMgr.obj
+         Release\Rider.obj
+         Release\Room.obj
+         Release\RoomInfo.obj
+         Release\Scene.obj
+         Release\SceneMgr.obj
+         Release\ServerMgr.obj
+         Release\Shader.obj
+         Release\SkyBox.obj
+         Release\SkyBoxBuffer.obj
+         Release\SkyBoxShader.obj
+         Release\Sound.obj
+         Release\StaticCamera.obj
+         Release\StaticModel.obj
+         Release\Status.obj
+         Release\Subject.obj
+         Release\TargetBox.obj
+         Release\Texture.obj
+         Release\TextureShader.obj
+         Release\Timer.obj
+         Release\Title.obj
+         Release\Trigger.obj
+         Release\UI.obj
+         Release\UIBuffer.obj
+         Release\UIObserver.obj
+         Release\Unit.obj
+         Release\UnMovableZone.obj
+         Release\UserInfo.obj
+         Release\Client.obj
+         Release\stdafx.obj
+         코드를 생성하고 있습니다.
+         코드를 생성했습니다.
+         Client.vcxproj -> E:\cordingbirds\trunk\Project\In_the_Gorest\Client\Include\../bin/Client.exe
+     1>"E:\cordingbirds\trunk\Project\In_the_Gorest\Client\Include\Client.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
+
+빌드했습니다.
+
+경과 시간: 00:00:44.32

@@ -1,0 +1,7 @@
+Model_Bird	../bin/Resource/Ani/Bird/	6
+Run
+Fall
+Dead
+Damage
+Booster
+Break
