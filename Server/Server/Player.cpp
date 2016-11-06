@@ -99,6 +99,7 @@ D3DXVECTOR3 CPlayer::PlayerPos(DWORD packet, int id){
 		}
 	}
 	
+	
 	SC_AvoidPlayer avoidplayer;
 	//Avoid------------------------------------------------
 	if (AVOIDKEY_LEFT & packet){
@@ -124,12 +125,12 @@ D3DXVECTOR3 CPlayer::PlayerPos(DWORD packet, int id){
 
 		D3DXVECTOR3 vRight;
 		D3DXVec3Cross(&vRight, &D3DXVECTOR3(0.f, 1.f, 0.f), &client[id].direction);
-		
+
 		//EnterCriticalSection(&client[id].cs);
 		if (client[id].avoidspeed > 0.0f){
 			client[id].avoidspeed -= client[id].accel * client[id].frametime * client[id].presstime;
 			client[id].presstime += 0.11f;
-		//LeaveCriticalSection(&client[id].cs);
+			//LeaveCriticalSection(&client[id].cs);
 		}
 		//EnterCriticalSection(&client[id].cs);
 		client[id].position -= vRight * client[id].avoidspeed * client[id].frametime;
@@ -151,8 +152,9 @@ D3DXVECTOR3 CPlayer::PlayerPos(DWORD packet, int id){
 		if (client[id].avoidspeed > 0.0f){
 			client[id].avoidspeed -= client[id].accel * client[id].frametime * client[id].presstime;
 			client[id].presstime += .11f;
-		LeaveCriticalSection(&client[id].cs);
-		}else
+			LeaveCriticalSection(&client[id].cs);
+		}
+		else
 			LeaveCriticalSection(&client[id].cs);
 
 		//EnterCriticalSection(&client[id].cs);
@@ -160,7 +162,6 @@ D3DXVECTOR3 CPlayer::PlayerPos(DWORD packet, int id){
 		//LeaveCriticalSection(&client[id].cs);
 		//printf("player X pos = %f, speed = %f", client[id].position.x, client[id].speed);
 	}
-
 	if (client[id].trigger == FcolTrigger || client[id].trigger == BcolTrigger)
 		CollWall(id);
 
