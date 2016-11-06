@@ -127,3 +127,11 @@ float CPhysics::BounceDecel(float _fTime){
 	return m_fSpeed;
 }
 
+void CPhysics::BoosterAccel(float _fTime){
+	if (m_fSpeed < 300.0f){
+		m_fSpeed = m_fAcctime * m_fAccel;
+		m_fAcctime += 0.01f;
+	}
+	m_vPos += m_vDir * m_fSpeed * _fTime;
+	m_fBoosterTimer += .1f;
+}
