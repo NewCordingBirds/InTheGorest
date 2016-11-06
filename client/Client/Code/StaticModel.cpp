@@ -7,18 +7,18 @@
 
 
 CStaticModel::CStaticModel(CDevice* _pDevice)
-: CModelBuffer(_pDevice)
+	: CModelBuffer(_pDevice)
 {
-	
+
 }
 
 CStaticModel::~CStaticModel()
 {
 	Release();
 }
-	
+
 CResource* CStaticModel::Create(CDevice* _pDevice,
-								const char* _pPath)
+	const char* _pPath)
 {
 	CStaticModel* pComponent = new CStaticModel(_pDevice);
 
@@ -78,10 +78,10 @@ void CStaticModel::Release()
 }
 
 HRESULT CStaticModel::Load_Model(const char* _pPath,
-								FbxManager* _pFBXManager,
-								FbxIOSettings* _pIOsettings,
-								FbxScene* _pFBXScene,
-								FbxImporter* _pImporter)
+	FbxManager* _pFBXManager,
+	FbxIOSettings* _pIOsettings,
+	FbxScene* _pFBXScene,
+	FbxImporter* _pImporter)
 {
 	if (!(_pImporter->Initialize(_pPath, -1, _pFBXManager->GetIOSettings())))
 		FAILED_CHECK_MSG(E_FAIL, L"Model Init Failed");
@@ -150,20 +150,20 @@ HRESULT CStaticModel::Load_Model(const char* _pPath,
 					{
 					case FbxGeometryElement::eDirect:
 					{
-														outUV.x = static_cast<float>(vertexUV->GetDirectArray()
-															.GetAt(iControlPointIndex).mData[0]);
-														outUV.y = 1 - static_cast<float>(vertexUV->GetDirectArray()
-															.GetAt(iControlPointIndex).mData[1]);
+						outUV.x = static_cast<float>(vertexUV->GetDirectArray()
+							.GetAt(iControlPointIndex).mData[0]);
+						outUV.y = 1 - static_cast<float>(vertexUV->GetDirectArray()
+							.GetAt(iControlPointIndex).mData[1]);
 					}
-						break;
+					break;
 
 					case FbxGeometryElement::eIndexToDirect:
 					{
-															   int index = vertexUV->GetIndexArray().GetAt(iControlPointIndex);
-															   outUV.x = static_cast<float>(vertexUV->GetDirectArray().GetAt(index).mData[0]);
-															   outUV.y = 1 - static_cast<float>(vertexUV->GetDirectArray().GetAt(index).mData[1]);
+						int index = vertexUV->GetIndexArray().GetAt(iControlPointIndex);
+						outUV.x = static_cast<float>(vertexUV->GetDirectArray().GetAt(index).mData[0]);
+						outUV.y = 1 - static_cast<float>(vertexUV->GetDirectArray().GetAt(index).mData[1]);
 					}
-						break;
+					break;
 
 					default:
 						throw std::exception("Invalid Reference");
