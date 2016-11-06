@@ -162,9 +162,9 @@ D3DXVECTOR3 CPlayer::PlayerPos(DWORD packet, int id){
 		//LeaveCriticalSection(&client[id].cs);
 		//printf("player X pos = %f, speed = %f", client[id].position.x, client[id].speed);
 	}
+
 	if (client[id].trigger == FcolTrigger || client[id].trigger == BcolTrigger)
 		CollWall(id);
-
 	//m_time = m_frametime;
 	Pl= client[id].position;
 	//printf("%d : %.2f, %.2f, %.2f \n",
