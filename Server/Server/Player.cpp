@@ -197,9 +197,10 @@ void CPlayer::BasicDecel(int keyTrigger, float _fTime, int id){
 	}
 }
 
+
 void CPlayer::CollWall(int id){
 	//client[id].frametime = CTimer::FramePerSec();
-	
+
 	//client[id].trigger = colTrigger;
 
 	if (client[id].presstime <= 0){
