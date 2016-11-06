@@ -88,6 +88,7 @@ HRESULT CPlayer::Init()
 	m_fProgressRate = 0;
 
 	sound.PlayMusic(0);
+	
 	return S_OK;
 }
 
