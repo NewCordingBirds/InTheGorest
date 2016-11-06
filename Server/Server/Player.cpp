@@ -45,7 +45,6 @@ D3DXVECTOR3 CPlayer::PlayerPos(DWORD packet, int id){
 		Pl = client[id].position;
 		return Pl;
 	}
-
 	if (noneTrigger == client[id].trigger || ForwordTrigger == client[id].trigger ||
 		BackwordTrigger == client[id].trigger || FDecelTrigger == client[id].trigger ||
 		BDecelTrigger == client[id].trigger){
@@ -61,7 +60,7 @@ D3DXVECTOR3 CPlayer::PlayerPos(DWORD packet, int id){
 			LeaveCriticalSection(&client[id].cs);
 		}
 		// 위 방향키 눌렀다 떼기
-		if ( UPKEY_UP & packet ){
+		if (UPKEY_UP & packet){
 			client[id].trigger = FDecelTrigger;
 		}
 		if (client[id].trigger == FDecelTrigger){
@@ -80,25 +79,26 @@ D3DXVECTOR3 CPlayer::PlayerPos(DWORD packet, int id){
 			{
 				client[id].speed = 0;							// 수정 꼭
 				client[id].presstime = 0;						// 수정 꼭
-			}	
+			}
 			EnterCriticalSection(&client[id].cs);
 			BasicAccel(KEY_DOWN, client[id].frametime, id);		// 수정
 			LeaveCriticalSection(&client[id].cs);
 		}
 		//아래 방향키 눌렀다 뗌
 		if (UPKEY_DOWN & packet){
-				//client[id].presstime = 1.2;
-				client[id].trigger = BDecelTrigger;
+			//client[id].presstime = 1.2;
+			client[id].trigger = BDecelTrigger;
 		}
 		if (BDecelTrigger == client[id].trigger){
 			if (client[id].speed <= 0){
 				client[id].trigger = noneTrigger;
-			}	
+			}
 			EnterCriticalSection(&client[id].cs);
 			BasicDecel(UPKEY_DOWN, client[id].frametime, id);
 			LeaveCriticalSection(&client[id].cs);
 		}
-	}	
+	}
+	
 	SC_AvoidPlayer avoidplayer;
 	//Avoid------------------------------------------------
 	if (AVOIDKEY_LEFT & packet){
