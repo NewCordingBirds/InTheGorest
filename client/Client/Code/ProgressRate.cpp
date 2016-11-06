@@ -150,6 +150,38 @@ HRESULT CProgressRate::Init()
 	return S_OK;
 }
 
+int CProgressRate::Update()
+{
+	if (CRenderer::m_fTimer > 1.f)
+	{
+		m_pFont_FPS->m_wstrText = to_wstring(CRenderer::m_dwFPSCnt);
+		CRenderer::m_fTimer = 0.f;
+		CRenderer::m_dwFPSCnt = 0;
+	}
+
+	const static float TOTAL_MAP_LENGHT = CProgressMgr::GetInstance()->m_fFullLength;
+	m_fCurMapLenght = m_pPlayerObserver->GetCurMapLength();
+
+	m_tSprite_Rate.m_matView._22 = (m_fCurMapLenght * SIZE_RATE_Y / TOTAL_MAP_LENGHT) / 2.f;
+	m_tSprite_Rate.m_matView._42 = -(m_tSprite_Rate.m_matView._22) + (CLIENT_WINCY >> 1);
+
+	// ¤¾¤¾..
+	if (m_nCurLap == 1 && m_fCurMapLenght >= TOTAL_MAP_LENGHT / 2.0f)
+	{
+		m_nCurLap = 2;
+		m_pFont_CurLap->m_wstrText = to_wstring(m_nCurLap);
+		m_pInMapMgr->SetCurLap(m_nCurLap);
+	}
+	//else if (m_nCurLap == 2 && m_fCurMapLenght < TOTAL_MAP_LENGHT / 2.0f)
+	//{
+	//	m_nCurLap = 1;
+	//	m_pFont_CurLap->m_wstrText = to_wstring(m_nCurLap);
+	//	m_pInMapMgr->SetCurLap(m_nCurLap);
+	//}
+
+
+	return m_eObjState;
+}
 
 void CProgressRate::Render()
 {
