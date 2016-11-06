@@ -266,6 +266,7 @@ D3DXVECTOR3 CPlayer::UseBooster(int id){
 	}
 	return client[id].position;
 }
+
 D3DXVECTOR3 CPlayer::BoosterColl(int id, D3DXVECTOR3 direction){
 
 	client[id].frametime = CTimer::FramePerSec();
