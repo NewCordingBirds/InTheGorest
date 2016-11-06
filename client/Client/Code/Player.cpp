@@ -537,7 +537,38 @@ void CPlayer::CheckCol()
 	}
 
 
-	
+	if (pColMgr->CheckColObjToObj(CColMgr::COL_TARGET_PROGRESSRATEZONE, m_pObjCol, &pObj))
+	{
+
+		if (!bColInProgressRateZone)
+		{
+			//AllocConsole();
+			//_cprintf("ID : %d\n", ((CProgressRateZone*)pObj)->GetID());
+			//_cprintf("Num : %d\n", m_iprogressnum);
+
+			if (m_iprogressnum == (PROGRESS_RATE_ZONE_NUM * 2) - 1)
+			{
+				m_pPlayingInfo->m_ePlayingState = CPlayingInfo::PLAYING_STATE_GOAL;
+				CInMapMgr::GetInstance()->SetInMapState(CInMapMgr::INMAP_STATE_END);
+			}
+			else if (PROGRESS_RATE_ZONE_NUM - 1 <= m_iprogressnum)
+			{
+				if (((CProgressRateZone*)pObj)->GetID() == m_iprogressnum - (PROGRESS_RATE_ZONE_NUM - 1))
+					++m_iprogressnum;
+				else --m_iprogressnum;
+			}
+			else
+			{
+				if (((CProgressRateZone*)pObj)->GetID() == m_iprogressnum + 1)
+					++m_iprogressnum;
+				else --m_iprogressnum;
+			}
+		}
+		bColInProgressRateZone = true;
+	}
+	else
+		bColInProgressRateZone = false;
+
 
 	if (pColMgr->CheckColObjToObj(CColMgr::COL_TARGET_BOOSTERZONE, m_pObjCol, &pObj))
 	{
