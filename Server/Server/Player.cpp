@@ -171,6 +171,7 @@ D3DXVECTOR3 CPlayer::PlayerPos(DWORD packet, int id){
 	//	id, client[id].frametime, client[id].speed, client[id].presstime);
 	return Pl;
 }
+
 void CPlayer::BasicAccel(int keyTrigger, float _fTime, int id){	// ¼öÁ¤ 
 	if (client[id].speed < 150.0f){
 		client[id].speed = client[id].presstime * client[id].accel;
