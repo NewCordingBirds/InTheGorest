@@ -114,3 +114,16 @@ void CPhysics::AvoidPhysics(float _fTime){
 	D3DXVec3Normalize(&m_vDir, &m_vDir);
 }
 
+float CPhysics::BounceDecel(float _fTime){
+	if (m_fSpeed >= 50.0f){
+		m_fSpeed -= 50.0f;
+	}
+	if (m_fSpeed >= 0.0f){
+		m_fSpeed = m_fAcctime * m_fAccel;
+		m_fAcctime -= 0.01f;
+	}
+	m_vPos -= m_vDir * m_fSpeed * _fTime;
+
+	return m_fSpeed;
+}
+
