@@ -24,7 +24,7 @@ SC_Item CItem::AvoidItem(int id){
 	itempacket.isExist = false;
 	itempacket.size = sizeof(SC_Item);
 	itempacket.type = SC_ITEMEXIST;
-	
+
 	item[id].in_use = false;
 	return itempacket;
 }
