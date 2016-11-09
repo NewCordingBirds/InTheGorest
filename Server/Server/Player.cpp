@@ -1,6 +1,6 @@
 #include "Player.h"
 
-CPlayer::CPlayer():
+CPlayer::CPlayer() :
 x(4.9f),
 y(60.5f),
 z(275.0f)
@@ -25,9 +25,9 @@ SC_InitPlayer CPlayer::PlayerAccept(int id){
 	packet.move = { x + (id * 10), y, z };
 	packet.speed = 0;
 	packet.accel = 100.0f;
-	
+
 	usernum++;
-	
+
 	return packet;
 }
 D3DXVECTOR3 CPlayer::PlayerPos(DWORD packet, int id){
@@ -37,7 +37,7 @@ D3DXVECTOR3 CPlayer::PlayerPos(DWORD packet, int id){
 	client[id].frametime = timer[id].FramePerSec();
 	//client[id].frametime = 0.01f;	
 	//LeaveCriticalSection(&client[id].cs);
-	
+
 	if (client[id].isDie){
 		D3DXVECTOR3 diedir(0, 1, 0);
 		client[id].speed = 100.f;
@@ -98,8 +98,8 @@ D3DXVECTOR3 CPlayer::PlayerPos(DWORD packet, int id){
 			LeaveCriticalSection(&client[id].cs);
 		}
 	}
-	
-	
+
+
 	SC_AvoidPlayer avoidplayer;
 	//Avoid------------------------------------------------
 	if (AVOIDKEY_LEFT & packet){
@@ -166,7 +166,7 @@ D3DXVECTOR3 CPlayer::PlayerPos(DWORD packet, int id){
 	if (client[id].trigger == FcolTrigger || client[id].trigger == BcolTrigger)
 		CollWall(id);
 	//m_time = m_frametime;
-	Pl= client[id].position;
+	Pl = client[id].position;
 	//printf("%d : %.2f, %.2f, %.2f \n",
 	//	id, client[id].frametime, client[id].speed, client[id].presstime);
 	return Pl;
