@@ -25,12 +25,12 @@ float CTimer::FramePerSec(){
 		m_Cpustop.QuadPart = m_Cpuclock.QuadPart;
 	}
 	m_Time = (float)(m_Cpuclock.QuadPart - m_Fixclock.QuadPart) / (float)m_CpuFreq.QuadPart;
-	
+
 	m_Fixclock = m_Cpuclock;
 
 	return m_Time;
 }
-bool CTimer::TimeCount(float sec){	
+bool CTimer::TimeCount(float sec){
 	//return false;
 	QueryPerformanceFrequency(&m_CpuFreq);
 
