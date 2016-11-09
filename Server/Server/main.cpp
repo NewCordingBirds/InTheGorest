@@ -11,15 +11,15 @@ void main(){
 		CServer::GetInstance()->PlayerInit(i);
 
 	hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0);
-	
+
 	for (int i = 0; i < NUM_THREADS; ++i)
 		worker_threads.push_back(new thread{ [](){
 		CServer::GetInstance()->Worker_thread();
 	} });
-	
+
 	thread acceptthread = thread{ [](){
 		CServer::GetInstance()->Accept_thread();
-	} };	
+	} };
 	thread timerthread = thread{ [](){
 		CServer::GetInstance()->Timer_thread();
 	} };
@@ -28,14 +28,12 @@ void main(){
 	//} };
 
 	while (true){ Sleep(1000); }
-	
+
 	for (auto th : worker_threads){
 		th->join();
 		delete th;
 	}
 	acceptthread.join();
 	CServer::GetInstance()->CleanUp();
-
-	
 
 }
